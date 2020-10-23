@@ -27,7 +27,7 @@ app.get('/hola', function (req, res) {
     res.send('[GET]Saludos desde express');
 });
 app.post('/gamer', function (req, res) {
-    if (req.params.nombre== "" || req.params.apellido == "" || req.params.score == "")
+    if (req.body.nombre== "" || req.body.apellido == "" || req.body.score == "")
     {
         respuesta = {
             error: true,
@@ -57,7 +57,7 @@ app.post('/gamer', function (req, res) {
                 error: false,
                 codigo: 200,
                 mensaje: 'Jugador creado',
-                jugador: jugador
+                jugadorr: jugador
             };
             /*jugador = {
                 nombre: req.params.nombre,
