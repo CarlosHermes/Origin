@@ -6,6 +6,172 @@ const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+///////////////////////////////
+var swaggerUi = require('swagger-ui-express'),/
+const swaggerOptions = {
+    "swagger": "2.0",
+    "title": "Rest Ranking",
+    "info": {
+        "version": "1.0.0",
+        "title": "Simple API",
+        "description": "A simple API to learn how to write OpenAPI Specification"
+    },
+    "schemes": [
+        "https"
+    ],
+    "host": "simple.api",
+    "basePath": "/openapi101",
+    "paths": {
+        "/": {
+            "get": {
+                "summary": "Server status",
+                "description": "Returns if the server 2-DAMVI is up",
+                "responses": {
+                    "200": {
+                        "description": "message saying the server is up",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "description": "error code"
+                                    },
+                                    "error": {
+                                        "type": "boolean",
+                                        "description":
+                                        "true means there is an error"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "examples" : //cuidao
+                        }
+                    }
+                }
+            }
+        },
+        "/ranking": {
+            "get": {
+                "summary": "Players ranking",
+                "description": "Returns a list containing all the players ordered by score.",
+                "responses": {
+                    "200": {
+                        "description": "A list of Players",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "position": {
+                                        "type": "string",
+                                        "description": "position on the ranking"
+                                    },
+                                    "alias": {
+                                        "type": "string",
+                                        "description": "alias of the player"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "surname":{
+                                        "type": "string"
+                                    },
+                                    "score":{
+                                        "type": "integer"
+                                    },
+                                    "created":{
+                                        "type": "string",
+                                        "format": "date"
+                                        "description": "Date when the player was created"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/players/:alias": {
+            "post": {
+                "summary": "Player creation",
+                "description": "Returns an error message which says if the player searched by alias exists or not.",
+                "parameters":{
+                    "paramAlias":{
+                        "name": "alias",
+                        "description": "alias of a not existing player you want to save",
+                        "type": "string"
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Returns the answer to the search",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "code":{
+                                        "type": "string",
+                                        "description": "error code"
+                                    },
+                                    "error": {
+                                        "type": "boolean",
+                                        "description":
+                                        "true means there is an error"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/players/:alias": {
+            "put": {
+                "summary": "Player update",
+                "description": "Returns an error message which says if the player searched by alias already exists or not, also says if parameters are inserted correctly.",
+                "parameters":{
+                    "paramAlias":{
+                        "name": "alias",
+                        "description": "alias of an existing player you want to update",
+                        "type": "string"
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Returns the answer to the update",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "code":{
+                                        "type": "string",
+                                        "description": "error code"
+                                    },
+                                    "error": {
+                                        "type": "boolean",
+                                        "description":
+                                        "true means there is an error"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerui.setup(swaggerDocs));
+//////////////////////////////
 
 let code100 = { code: 100, error: false, message: '2-DAMVI Server Up' };
 let code200 = { code: 200, error: false, message: 'Player Exists' };
@@ -128,8 +294,4 @@ app.put('/players/:alias', function (req, res) {
         }
     }
     res.send(response);
-});
-
-app.listen(3000, () => {
-    console.log("El servidor está inicializado en el puerto 3000");
 });
