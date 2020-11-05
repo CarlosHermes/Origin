@@ -1,6 +1,5 @@
 {
     "swagger": "2.0",
-    "title": "Rest Ranking",
     "info": {
         "version": "1.0.0",
         "title": "Simple API",
@@ -36,8 +35,7 @@
                                         "type": "string"
                                     }
                                 }
-                            },
-                            "examples" : //cuidao
+                            }
                         }
                     }
                 }
@@ -73,7 +71,7 @@
                                     },
                                     "created":{
                                         "type": "string",
-                                        "format": "date"
+                                        "format": "date",
                                         "description": "Date when the player was created"
                                     }
                                 }
@@ -87,13 +85,13 @@
             "post": {
                 "summary": "Player creation",
                 "description": "Returns an error message which says if the player searched by alias exists or not.",
-                "parameters":{
-                    "paramAlias":{
-                        "name": "alias",
-                        "description": "alias of a not existing player you want to save",
-                        "type": "string"
-                    }
-                },
+                "parameters": [{
+                    "in": "path",
+                    "name": "alias",
+                    "required" : true,
+                    "description": "alias of a not existing player you want to save",
+                    "type": "string"
+                } ],
                 "responses": {
                     "201": {
                         "description": "Returns the answer to the search",
@@ -118,19 +116,16 @@
                         }
                     }
                 }
-            }
-        },
-        "/players/:alias": {
-            "put": {
+            },"put": {
                 "summary": "Player update",
                 "description": "Returns an error message which says if the player searched by alias already exists or not, also says if parameters are inserted correctly.",
-                "parameters":{
-                    "paramAlias":{
-                        "name": "alias",
-                        "description": "alias of an existing player you want to update",
-                        "type": "string"
-                    }
-                },
+                "parameters": [{
+                    "in": "path",
+                    "name": "alias",
+                    "required" : true,
+                    "description": "alias of a not existing player you want to update",
+                    "type": "string"
+                } ],
                 "responses": {
                     "201": {
                         "description": "Returns the answer to the update",
@@ -159,3 +154,5 @@
         }
     }
 }
+        
+            
