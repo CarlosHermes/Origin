@@ -1,10 +1,5 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const app = express()
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
+myApi = function (app){
+    
 let code100 = { code: 100, error: false, message: '2-DAMVI Server Up' };
 let code200 = { code: 200, error: false, message: 'Player Exists' };
 let code201 = { code: 201, error: false, message: 'Player Correctly Created' };
@@ -127,3 +122,7 @@ app.put('/players/:alias', function (req, res) {
     }
     res.send(response);
 });
+
+}
+exports.myApi = myApi;
+

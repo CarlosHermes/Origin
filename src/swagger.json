@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "version": "1.0.0",
-        "title": "Simple API",
+        "title": "Rest Ranking",
         "description": "A simple API to learn how to write OpenAPI Specification"
     },
     "schemes": [
@@ -85,7 +85,7 @@
             "post": {
                 "summary": "Player creation",
                 "description": "Returns an error message which says if the player searched by alias exists or not.",
-                "parameters": [{
+                "parameters": [{ //más parámetros
                     "in": "path",
                     "name": "alias",
                     "required" : true,
