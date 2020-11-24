@@ -85,7 +85,7 @@
             "post": {
                 "summary": "Player creation",
                 "description": "Returns an error message which says if the player searched by alias exists or not.",
-                "parameters": [{ //más parámetros
+                "parameters": [{ 
                     "in": "path",
                     "name": "alias",
                     "required" : true,
