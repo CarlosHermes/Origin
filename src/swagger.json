@@ -85,13 +85,36 @@
             "post": {
                 "summary": "Player creation",
                 "description": "Returns an error message which says if the player searched by alias exists or not.",
-                "parameters": [{ 
+                "parameters": [
+                { 
                     "in": "path",
                     "name": "alias",
                     "required" : true,
                     "description": "alias of a not existing player you want to save",
                     "type": "string"
-                } ],
+                },
+                {
+                    "in": "query",
+                    "name": "name",
+                    "required" : true,
+                    "description": "name of the player you want to create",
+                    "type": "string"
+                },
+                {
+                    "in": "query",
+                    "name": "surname",
+                    "required" : true,
+                    "description": "surname of the player you want to create",
+                    "type": "string"
+                },         
+                {
+                    "in": "query",
+                    "name": "score",
+                    "required" : true,
+                    "description": "score of the player you want to create",
+                    "type": "string"
+                }
+                ],
                 "responses": {
                     "201": {
                         "description": "Returns the answer to the search",
@@ -123,9 +146,31 @@
                     "in": "path",
                     "name": "alias",
                     "required" : true,
-                    "description": "alias of a not existing player you want to update",
+                    "description": "alias of an existing player you want to update",
                     "type": "string"
-                } ],
+                },
+                {
+                    "in": "query",
+                    "name": "name",
+                    "required" : true,
+                    "description": "name of the player you want to update",
+                    "type": "string"
+                },
+                {
+                    "in": "query",
+                    "name": "surname",
+                    "required" : true,
+                    "description": "surname of the player you want to update",
+                    "type": "string"
+                },         
+                {
+                    "in": "query",
+                    "name": "score",
+                    "required" : true,
+                    "description": "score of the player you want to update",
+                    "type": "string"
+                }                                 
+                    ],
                 "responses": {
                     "201": {
                         "description": "Returns the answer to the update",
