@@ -8,8 +8,6 @@
     "schemes": [
         "https"
     ],
-    "host": "simple.api",
-    "basePath": "/openapi101",
     "paths": {
         "/": {
             "get": {
