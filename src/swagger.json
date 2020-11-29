@@ -85,6 +85,14 @@
             "get": {
                 "summary": "Searches player",
                 "description": "Searches a player and returns the position in the ranking",
+                "parameters": [
+                    { 
+                        "in": "path",
+                        "name": "alias",
+                        "required" : true,
+                        "description": "alias of a not existing player you want to save",
+                        "type": "string"
+                    }],
                 "responses": {
                     "200": {
                         "description": "message saying if player exists or not",
