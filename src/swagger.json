@@ -152,7 +152,7 @@
                 },
                 {
                     "schema" :{
-                        "type": "array"
+                        "type": "string"
                     },
                     "name": "name",
                     "in" :"body",
@@ -161,7 +161,7 @@
                 },
                 {
                     "schema" :{
-                        "type": "array"
+                        "type": "string"
                     },
                     "name": "surname",
                     "in" :"body",
@@ -170,7 +170,7 @@
                 },
                 {
                     "schema" :{
-                        "type": "array"
+                        "type": "string"
                     },
                     "name": "score",
                     "in" :"body",
@@ -214,7 +214,7 @@
                 },
                 {
                     "schema" :{
-                        "type": "array"
+                        "type": "string"
                     },
                     "name": "name",
                     "in" :"body",
@@ -223,7 +223,7 @@
                 },
                 {
                     "schema" :{
-                        "type": "array"
+                        "type": "string"
                     },
                     "name": "surname",
                     "in" :"body",
@@ -232,7 +232,7 @@
                 },
                 {
                     "schema" :{
-                        "type": "array"
+                        "type": "string"
                     },
                     "name": "score",
                     "in" :"body",
