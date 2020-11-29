@@ -136,6 +136,28 @@
                                 }
                             }
                         }
+                    },
+                    "504":{
+                        "description": "message saying player was not found",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "description": "error code"
+                                    },
+                                    "error": {
+                                        "type": "boolean",
+                                        "description":
+                                        "true means there is an error"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -214,6 +236,72 @@
                                     },
                                     "message": {
                                         "type": "string"
+                                    },
+				                    "position": {
+                                        "type": "string",
+                                        "description": "position on the ranking"
+                                    },
+                                    "alias": {
+                                        "type": "string",
+                                        "description": "alias of the player"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "surname":{
+                                        "type": "string"
+                                    },
+                                    "score":{
+                                        "type": "integer"
+                                    },
+                                    "created":{
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Date when the player was created"
+                                    }
+                                }
+                            }
+                        }
+                    },
+		            "503":{
+                    "description": "player already exists",
+                    "schema": {
+                    	"type": "array",
+                        "items": {
+                               "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "description": "error code"
+                                    },
+                                    "error": {
+                                        "type": "boolean",
+                                        "description":
+                                        "true means there is an error"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    }
+				                }
+			                }
+                        }
+                    },
+		            "502":{
+                    "description": "message saying you missed a field",
+                    "schema": {
+                    	"type": "array",
+                        "items": {
+                               "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "description": "error code"
+                                    },
+                                    "error": {
+                                        "type": "boolean",
+                                        "description":
+                                        "true means there is an error"
+                                    },
+                                    "message": {
+                                        "type": "string"
                                     }
                                 }
                             }
@@ -259,8 +347,8 @@
                 }
             ],                             
                 "responses": {
-                    "201": {
-                        "description": "Returns the answer to the update",
+                    "202": {
+                        "description": "Returns the player was successfully updated",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -272,6 +360,72 @@
                                     "error": {
                                         "type": "boolean",
                                         "description": "true means there is an error"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    },
+				                    "position": {
+                                        "type": "string",
+                                        "description": "position on the ranking"
+                                    },
+                                    "alias": {
+                                        "type": "string",
+                                        "description": "alias of the player"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "surname":{
+                                        "type": "string"
+                                    },
+                                    "score":{
+                                        "type": "integer"
+                                    },
+                                    "created":{
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Date when the player was created"
+                                    }
+                                }
+                            }
+                        }
+                    },
+		            "502": {
+                    "description": "message saying you missed a field",
+                    "schema": {
+                    	"type": "array",
+                        "items": {
+                               "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "description": "error code"
+                                    },
+                                    "error": {
+                                        "type": "boolean",
+                                        "description":
+                                        "true means there is an error"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    }
+				                }
+			                }
+                        }
+                    },
+		            "504":{
+                    "description": "message saying player was not found",
+                    "schema": {
+                    	"type": "array",
+                        "items": {
+                               "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "description": "error code"
+                                    },
+                                    "error": {
+                                        "type": "boolean",
+                                        "description":
+                                        "true means there is an error"
                                     },
                                     "message": {
                                         "type": "string"
