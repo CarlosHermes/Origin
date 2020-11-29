@@ -84,7 +84,7 @@
                 }
             }
         },
-        "/players/:alias": {
+        "/players/{alias}": {
             "get": {
                 "summary": "Searches player",
                 "description": "Searches a player and returns the position in the ranking",
