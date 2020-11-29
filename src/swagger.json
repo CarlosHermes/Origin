@@ -167,40 +167,13 @@
             },
             "post": {
                 "summary": "Player creation",
-                "description": "Returns an error message which says if the player searched by alias exists or not.",
+                "description": "Adds the introduced player if not exists",
                 "parameters": [{
                     "in": "path",
                     "name": "alias",
                     "required" : true,
                     "description": "alias of an existing player you want to save",
                     "type": "string"
-                },
-                {
-                    "schema" :{
-                        "type": "string"
-                    },
-                    "name": "name",
-                    "in" :"body",
-                    "required" : true,
-                    "description": "name an existing player you want to save"
-                },
-                {
-                    "schema" :{
-                        "type": "string"
-                    },
-                    "name": "surname",
-                    "in" :"body",
-                    "required" : true,
-                    "description": "surname of an existing player you want to save"
-                },
-                {
-                    "schema" :{
-                        "type": "string"
-                    },
-                    "name": "score",
-                    "in" :"body",
-                    "required" : true,
-                    "description": "score of an existing player you want to save"
                 },
                 {
                     "name": "requestBody",
@@ -314,7 +287,7 @@
                 }
             },"put": {
                 "summary": "Player update",
-                "description": "Returns an error message which says if the player searched by alias already exists or not, also says if parameters are inserted correctly.",
+                "description": "Updates the fields of an existing player",
                 "parameters": [{
                     "in": "path",
                     "name": "alias",
@@ -323,31 +296,24 @@
                     "type": "string"
                 },
                 {
-                    "schema" :{
-                        "type": "string"
+                    "name": "requestBody",
+                    "in": "body",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "surname": {
+                                "type": "string"
+                            },
+                            "score":  {
+                                "type": "string"
+                            }
+                        }
                     },
-                    "name": "name",
-                    "in" :"body",
-                    "required" : true,
-                    "description": "name an existing player you want to update"
-                },
-                {
-                    "schema" :{
-                        "type": "string"
-                    },
-                    "name": "surname",
-                    "in" :"body",
-                    "required" : true,
-                    "description": "surname of an existing player you want to update"
-                },
-                {
-                    "schema" :{
-                        "type": "string"
-                    },
-                    "name": "score",
-                    "in" :"body",
-                    "required" : true,
-                    "description": "score of an existing player you want to update"
+                    "required": true,
+                    "description": "parameters"
                 }
             ],                             
                 "responses": {
