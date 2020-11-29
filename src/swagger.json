@@ -8,8 +8,8 @@
     "schemes": [
         "https"
     ],
-    "host": "simple.api",
-    "basePath": "/openapi101",
+    "host": "rankingame-carlos.herokuapp.com/",
+    "basePath": "api",
     "paths": {
         "/": {
             "get": {
