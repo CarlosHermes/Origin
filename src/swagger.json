@@ -9,7 +9,7 @@
         "https"
     ],
     "host": "rankingame-carlos.herokuapp.com/",
-    "basePath": "api",
+    "basePath": "",
     "paths": {
         "/": {
             "get": {
