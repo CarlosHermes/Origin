@@ -3,13 +3,13 @@
     "info": {
         "version": "1.0.0",
         "title": "Rest Ranking",
-        "description": "A simple API to learn how to write OpenAPI Specification"
+        "description": "Ranking of players with their infor and score"
     },
     "schemes": [
         "https"
     ],
-    "host": "rankingame-carlos.herokuapp.com/",
-    "basePath": "",
+    "host": "rankingame-carlos.herokuapp.com",
+    "basePath": "/",
     "paths": {
         "/": {
             "get": {
