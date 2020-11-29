@@ -81,17 +81,17 @@
             }
         },
         "/players/:alias": {
-            "parameters": [
-                { 
-                    "in": "path",
-                    "name": "alias",
-                    "required" : true,
-                    "description": "alias of an existing player",
-                    "type": "string"
-                }],
             "get": {
                 "summary": "Searches player",
                 "description": "Searches a player and returns the position in the ranking",
+                "parameters": [
+                    { 
+                        "in": "path",
+                        "name": "alias",
+                        "required" : true,
+                        "description": "alias of an existing player",
+                        "type": "string"
+                    }],
                 "responses": {
                     "200": {
                         "description": "message saying if player exists or not",
