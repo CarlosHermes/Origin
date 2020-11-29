@@ -81,6 +81,58 @@
                 }
             }
         },
+        "/player/:alias": {
+            "get": {
+                "summary": "Searches player",
+                "description": "Searches a player and returns the position in the ranking",
+                "responses": {
+                    "200": {
+                        "description": "message saying if player exists or not",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "description": "error code"
+                                    },
+                                    "error": {
+                                        "type": "boolean",
+                                        "description":
+                                        "true means there is an error"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    },
+                                    "position": {
+                                        "type": "string",
+                                        "description": "position on the ranking"
+                                    },
+                                    "alias": {
+                                        "type": "string",
+                                        "description": "alias of the player"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "surname":{
+                                        "type": "string"
+                                    },
+                                    "score":{
+                                        "type": "integer"
+                                    },
+                                    "created":{
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Date when the player was created"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/players/:alias": {
             "post": {
                 "summary": "Player creation",
@@ -92,29 +144,25 @@
                     "required" : true,
                     "description": "alias of a not existing player you want to save",
                     "type": "string"
+                }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "surname":{
+                                    "type": "string"
+                                },
+                                "score":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
                 },
-                {
-                    "in": "query",
-                    "name": "name",
-                    "required" : true,
-                    "description": "name of the player you want to create",
-                    "type": "string"
-                },
-                {
-                    "in": "query",
-                    "name": "surname",
-                    "required" : true,
-                    "description": "surname of the player you want to create",
-                    "type": "string"
-                },         
-                {
-                    "in": "query",
-                    "name": "score",
-                    "required" : true,
-                    "description": "score of the player you want to create",
-                    "type": "string"
-                }
-                ],
                 "responses": {
                     "201": {
                         "description": "Returns the answer to the search",
@@ -148,29 +196,26 @@
                     "required" : true,
                     "description": "alias of an existing player you want to update",
                     "type": "string"
-                },
-                {
-                    "in": "query",
-                    "name": "name",
-                    "required" : true,
-                    "description": "name of the player you want to update",
-                    "type": "string"
-                },
-                {
-                    "in": "query",
-                    "name": "surname",
-                    "required" : true,
-                    "description": "surname of the player you want to update",
-                    "type": "string"
-                },         
-                {
-                    "in": "query",
-                    "name": "score",
-                    "required" : true,
-                    "description": "score of the player you want to update",
-                    "type": "string"
-                }                                 
-                    ],
+                }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "surname":{
+                                    "type": "string"
+                                },
+                                "score":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },                              
+                    
                 "responses": {
                     "201": {
                         "description": "Returns the answer to the update",
