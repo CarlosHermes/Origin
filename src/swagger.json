@@ -51,6 +51,10 @@
                             "type": "array",
                             "items": {
                                 "properties": {
+                                    "numberOfPlayers":{
+                                        "type":"integer",
+                                        "description" : "number of players in the ranking"
+                                    },
                                     "position": {
                                         "type": "string",
                                         "description": "position on the ranking"
