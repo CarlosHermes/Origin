@@ -81,7 +81,7 @@
                 }
             }
         },
-        "/player/:alias": {
+        "/players/:alias": {
             "get": {
                 "summary": "Searches player",
                 "description": "Searches a player and returns the position in the ranking",
@@ -90,7 +90,7 @@
                         "in": "path",
                         "name": "alias",
                         "required" : true,
-                        "description": "alias of a not existing player you want to save",
+                        "description": "alias of an existing player",
                         "type": "string"
                     }],
                 "responses": {
@@ -139,9 +139,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/players/:alias": {
+            },
             "post": {
                 "summary": "Player creation",
                 "description": "Returns an error message which says if the player searched by alias exists or not.",
