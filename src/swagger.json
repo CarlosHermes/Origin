@@ -28,8 +28,7 @@
                                     },
                                     "error": {
                                         "type": "boolean",
-                                        "description":
-                                        "true means there is an error"
+                                        "description": "true means there is an error"
                                     },
                                     "message": {
                                         "type": "string"
@@ -82,17 +81,17 @@
             }
         },
         "/players/:alias": {
+            "parameters": [
+                { 
+                    "in": "path",
+                    "name": "alias",
+                    "required" : true,
+                    "description": "alias of an existing player",
+                    "type": "string"
+                }],
             "get": {
                 "summary": "Searches player",
                 "description": "Searches a player and returns the position in the ranking",
-                "parameters": [
-                    { 
-                        "in": "path",
-                        "name": "alias",
-                        "required" : true,
-                        "description": "alias of an existing player",
-                        "type": "string"
-                    }],
                 "responses": {
                     "200": {
                         "description": "message saying if player exists or not",
@@ -191,8 +190,7 @@
                                     },
                                     "error": {
                                         "type": "boolean",
-                                        "description":
-                                        "true means there is an error"
+                                        "description": "true means there is an error"
                                     },
                                     "message": {
                                         "type": "string"
@@ -253,8 +251,7 @@
                                     },
                                     "error": {
                                         "type": "boolean",
-                                        "description":
-                                        "true means there is an error"
+                                        "description": "true means there is an error"
                                     },
                                     "message": {
                                         "type": "string"
