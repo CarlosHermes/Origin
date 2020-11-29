@@ -175,6 +175,26 @@
                     "in" :"body",
                     "required" : true,
                     "description": "score of an existing player you want to save"
+                },
+                {
+                    "name": "requestBody",
+                    "in": "body",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "surname": {
+                                "type": "string"
+                            },
+                            "score":  {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": true,
+                    "description": "parameters"
                 }
             ],            
                 "responses": {
