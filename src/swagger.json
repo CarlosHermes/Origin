@@ -143,32 +143,41 @@
             "post": {
                 "summary": "Player creation",
                 "description": "Returns an error message which says if the player searched by alias exists or not.",
-                "parameters": [
-                { 
+                "parameters": [{
                     "in": "path",
                     "name": "alias",
                     "required" : true,
-                    "description": "alias of a not existing player you want to save",
+                    "description": "alias of an existing player you want to save",
                     "type": "string"
-                }],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "type": "object",
-                            "properties": {
-                                "name": {
-                                    "type": "string"
-                                },
-                                "surname":{
-                                    "type": "string"
-                                },
-                                "score":{
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
                 },
+                {
+                    "schema" :{
+                        "type": "array"
+                    },
+                    "name": "name",
+                    "in" :"body",
+                    "required" : true,
+                    "description": "name an existing player you want to save"
+                },
+                {
+                    "schema" :{
+                        "type": "array"
+                    },
+                    "name": "surname",
+                    "in" :"body",
+                    "required" : true,
+                    "description": "surname of an existing player you want to save"
+                },
+                {
+                    "schema" :{
+                        "type": "array"
+                    },
+                    "name": "score",
+                    "in" :"body",
+                    "required" : true,
+                    "description": "score of an existing player you want to save"
+                }
+            ],            
                 "responses": {
                     "201": {
                         "description": "Returns the answer to the search",
@@ -202,26 +211,35 @@
                     "required" : true,
                     "description": "alias of an existing player you want to update",
                     "type": "string"
-                }],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "type": "object",
-                            "properties": {
-                                "name": {
-                                    "type": "string"
-                                },
-                                "surname":{
-                                    "type": "string"
-                                },
-                                "score":{
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                },                              
-                    
+                },
+                {
+                    "schema" :{
+                        "type": "array"
+                    },
+                    "name": "name",
+                    "in" :"body",
+                    "required" : true,
+                    "description": "name an existing player you want to update"
+                },
+                {
+                    "schema" :{
+                        "type": "array"
+                    },
+                    "name": "surname",
+                    "in" :"body",
+                    "required" : true,
+                    "description": "surname of an existing player you want to update"
+                },
+                {
+                    "schema" :{
+                        "type": "array"
+                    },
+                    "name": "score",
+                    "in" :"body",
+                    "required" : true,
+                    "description": "score of an existing player you want to update"
+                }
+            ],                             
                 "responses": {
                     "201": {
                         "description": "Returns the answer to the update",
