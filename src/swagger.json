@@ -229,7 +229,7 @@
                                         "type": "string"
                                     },
                                     "score":{
-                                        "type": "integer"
+                                        "type": "int"
                                     },
                                     "created":{
                                         "type": "string",
@@ -349,7 +349,7 @@
                                         "type": "string"
                                     },
                                     "score":{
-                                        "type": "integer"
+                                        "type": "int"
                                     },
                                     "created":{
                                         "type": "string",
