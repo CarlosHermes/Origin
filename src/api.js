@@ -71,7 +71,7 @@ app.post('/players/:alias', function (req, res) {
                 alias: paramAlias, 
                 name: paramName, 
                 surname: paramSurname, 
-                score: paramScore.parseInt ,
+                score: paramScore,
                 created: new Date()
             });
             //Sort the ranking
@@ -105,7 +105,7 @@ app.put('/players/:alias', function (req, res) {
                 alias: paramalias, 
                 name: paramname, 
                 surname: paramsurname, 
-                score: paramScore.parseInt,
+                score: paramScore,
                 created:  players[index].created,
                 updated: new Date()
             };
