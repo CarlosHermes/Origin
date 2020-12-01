@@ -97,62 +97,44 @@ app.put('/users/:userName', function (req, res) { //put de cambiar contraseña
     var paramValue = req.body.value || '';
         //User Search
     var index = users.findIndex(j => j.userName === paramUser)
-    var index2 = paramField.find(updatableParams);
-    if (index != -1 && field != undefined) {
+    var index2 = updatableParams.findIndex(j => j == paramField);
+    if (index != -1 && index2 != undefined) {
         //Update User
         users[index] = { 
             position: '', 
             userName: paramUser, 
-            password: paramPassword, 
+            password: users[index].password, 
             coins: users[index].coins,
             ingots: users[index].ingots, 
             level: users[index].level,
             created:  users[index].created,
             updated: new Date()
         };
-        users[index].index2 = paramValue;
-        /*switch (index2){
-            case updatableParams[1]:
+        //users[index].index2 = paramValue;
+        switch (index2){
+            case 0:
                 {
-                    users[index] = {
-                        password:paramValue
-                    };
+                    users[index].passowrd = paramValue;
                     break;
                 }
-
-            case updatableParams[2]:
+            case 1:
                 {
-                    users[index] = {
-                        coins:paramValue
-                    };
+                    users[index].coins = paramValue;
                     break;
                 }
-            case updatableParams[3]:
+            case 2:
                 {
-                    users[index] = {
-                        ingots:paramValue
-                    };
+                    users[index].ingots = paramValue;
                     break;
                 }
-            case updatableParams[4]:
+            case 3:
                 {
-                    users[index] = {
-                        level:paramValue
-                    };
+                    users[index].level = paramValue;
                     break;
                 }
             default:
                 break;
-        }*/
-        users[index] = { 
-            position: '', 
-            userName: paramUser, 
-            password: paramPassword, 
-            coins: users[index].coins, 
-            level: users[index].level,
-            created:  users[index].created,
-            updated: new Date()
-        };
+        }
         //Sort the ranking
         UpdateRanking();
         //Search User Again
