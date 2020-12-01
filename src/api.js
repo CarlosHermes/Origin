@@ -17,7 +17,7 @@ var users = [
     { position: "3", userName: "mgutierrez", password: "Marasfasasdia", coins: "0", ingots: "0", level: 850, created: "2020-11-03T15:20:21.377Z" }
 ];
 var updatableParams = [
-     "password", "coins", "ingots", "level" 
+     "password", "coins", "ingots", "level"  
 ];
 
 function UpdateRanking() {
@@ -33,6 +33,8 @@ function UpdateRanking() {
 app.get('/', function (req, res) {
     //code funciona ok
     res.send(code100);
+    var thing = 'coins'
+    users[0][thing] = "asdasd";
 });
 
 app.get('/ranking', function (req, res) {
@@ -110,31 +112,22 @@ app.put('/users/:userName', function (req, res) { //put de cambiar contraseña
             created:  users[index].created,
             updated: new Date()
         };
-        //users[index].index2 = paramValue;
+        //users[index][index2] = paramValue;
         switch (index2){
-            case 0:
-                {
+            case 0:{
                     users[index].passowrd = paramValue;
-                    break;
-                }
-            case 1:
-                {
+                    break;}
+            case 1:{
                     users[index].coins = paramValue;
-                    break;
-                }
-            case 2:
-                {
+                    break;}
+            case 2:{
                     users[index].ingots = paramValue;
-                    break;
-                }
-            case 3:
-                {
+                    break;}
+            case 3:{
                     users[index].level = paramValue;
-                    break;
-                }
+                    break;}
             default:
-                break;
-        }
+                break;}
         //Sort the ranking
         UpdateRanking();
         //Search User Again
