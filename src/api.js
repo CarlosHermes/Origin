@@ -1,26 +1,32 @@
 myApi = function (app){
     
-let code100 = { code: 100, error: false, message: '2-DAMVI Server Up' };
-let code200 = { code: 200, error: false, message: 'Player Exists' };
-let code201 = { code: 201, error: false, message: 'Player Correctly Created' };
-let code202 = { code: 201, error: false, message: 'Player Correctly Updated' };
-let codeError502 = { code: 503, error: true, message: 'The field: name, surname, score are mandatories (the score value has to be >0)' };
-let codeError503 = { code: 503, error: true, message: 'Error: Player Exists' };
-let codeError504 = { code: 504, error: true, message: 'Error: Player not found' };
+let code100 = { code: 100, error: false, message: 'Game Server Up' };
+let code200 = { code: 200, error: false, message: 'User Exists' };
+let code201 = { code: 201, error: false, message: 'User Correctly Created' };
+let code202 = { code: 201, error: false, message: 'User Correctly Updated' };
+let code203 = { code: 201, error: false, message: 'User Correctly Deleted' };
+//let codeError502 = { code: 503, error: true, message: 'The field: password, coins, level are mandatories (the level value has to be >0)' };
+let codeError503 = { code: 503, error: true, message: 'Error: User Already Exists' };
+let codeError504 = { code: 504, error: true, message: 'Error: User not found' };
+let codeError505 = { code: 505, error: true, message: "Error: Incorrect Password"}
+let codeError506 = { code: 506, error: true, message: "Error: Incorrect Field"}
 
-var players = [
-    { position: "1", alias: "jperez", name: "Jose", surname: "Perez", score: 1000, created: "2020-11-03T15:20:21.377Z"},
-    { position: "2", alias: "jsanz", name: "Juan", surname: "Sanz", score: 950, created: "2020-11-03T15:20:21.377Z" },
-    { position: "3", alias: "mgutierrez", name: "Maria", surname: "Gutierrez", score: 850, created: "2020-11-03T15:20:21.377Z" }
+var users = [
+    { position: "1", userName: "jperez", password: "sdaasdasfasd", coins: "0", ingots: "0", level: 1000, created: "2020-11-03T15:20:21.377Z"},
+    { position: "2", userName: "jsanz", password: "asfasdasd", coins: "0", ingots: "0", level: 950, created: "2020-11-03T15:20:21.377Z" },
+    { position: "3", userName: "mgutierrez", password: "Marasfasasdia", coins: "0", ingots: "0", level: 850, created: "2020-11-03T15:20:21.377Z" }
+];
+var updatableParams = [
+     "password", "coins", "ingots", "level" 
 ];
 
 function UpdateRanking() {
     //Order the ranking
-    players.sort((a, b) => (a.score <= b.score) ? 1 : -1);
+    users.sort((a, b) => (a.level <= b.level) ? 1 : -1);
 
     //Position Update
-    for (x = 0; x < players.length; x++) {
-        players[x].position = x + 1;
+    for (x = 0; x < users.length; x++) {
+        users[x].position = x + 1;
     }
 };
 
@@ -30,98 +36,174 @@ app.get('/', function (req, res) {
 });
 
 app.get('/ranking', function (req, res) {
-    let ranking = { namebreplayers: players.length, players: players };
+    let ranking = { numberplayers: users.length, users: users };
     res.send(ranking);
 });
 
-app.get('/players/:alias', function (req, res) {
-    //Player Search
-    var index = players.findIndex(j => j.alias === req.params.alias);
+app.get('/users/:userName', function (req, res) {
+    //User Search
+    var index = users.findIndex(j => j.userName === req.params.userName);
 
     if (index >= 0) {
-        //Player exists
+        //User exists
         response = code200;
-        response.jugador = players[index];
+        response.jugador = users[index];
     } else {
-        //Player doesn't exists
+        //User doesn't exists
         response = codeError504;
     }
     res.send(response);
 });
 
-app.post('/players/:alias', function (req, res) {
-    var paramAlias = req.params.alias || '';
-    var paramName = req.body.name || '';
-    var paramSurname = req.body.surname || '';
-    var paramScore = req.body.score || '';
+app.post('/users/:userName', function (req, res) {  //hacer post de crear usuario               
+    var paramUser = req.params.userName || '';
+    var paramPassword = req.body.password || '';
 
-    if (paramAlias === '' || paramName === '' || paramSurname === '' || parseInt(paramScore) <= 0 || paramScore === '') {
+    if (paramUser === '' || paramPassword === '') {
         response = codeError502;
     } else {
-        //Player Search
-        var index = players.findIndex(j => j.alias === paramAlias)
+        //User Search
+        var index = users.findIndex(j => j.userName === paramUser)
 
         if (index != -1) {
-            //Player allready exists
+            //User allready exists
             response = codeError503;
         } else {
-            //Add Player
-            players.push({ 
+            //Add User
+            users.push({ 
                 position: '', 
-                alias: paramAlias, 
-                name: paramName, 
-                surname: paramSurname, 
-                score: paramScore,
+                userName: paramUser, 
+                password: paramPassword, 
+                coins: 0, 
+                ingots: 0,
+                level: 0,
                 created: new Date()
             });
             //Sort the ranking
             UpdateRanking();
-            //Search Player Again
-            index = players.findIndex(j => j.alias === paramAlias);
+            //Search User Again
+            index = users.findIndex(j => j.userName === paramUser);
             //Response return
             response = code201;
-            response.player = players[index];
+            response.User = users[index];
         }
     }
     res.send(response);
 });
+//////////////////////////////////////////////////////////////////////////////////////////// UNIFICAR Y CREAR FUNCION AUX QUE ELIGA PARAMETROS A UPDATEAR
+app.put('/users/:userName', function (req, res) { //put de cambiar contraseña  
+    var paramUser = req.params.userName || '';
+    var paramField = req.body.field || '';
+    var paramValue = req.body.value || '';
+        //User Search
+    var index = users.findIndex(j => j.userName === paramUser)
+    var index2 = paramField.find(updatableParams);
+    if (index != -1 && field != undefined) {
+        //Update User
+        users[index] = { 
+            position: '', 
+            userName: paramUser, 
+            password: paramPassword, 
+            coins: users[index].coins,
+            ingots: users[index].ingots, 
+            level: users[index].level,
+            created:  users[index].created,
+            updated: new Date()
+        };
+        users[index].index2 = paramValue;
+        /*switch (index2){
+            case updatableParams[1]:
+                {
+                    users[index] = {
+                        password:paramValue
+                    };
+                    break;
+                }
 
-app.put('/players/:alias', function (req, res) {
-    var paramalias = req.params.alias || '';
-    var paramname = req.body.name || '';
-    var paramsurname = req.body.surname || '';
-    var paramScore = req.body.score || '';
+            case updatableParams[2]:
+                {
+                    users[index] = {
+                        coins:paramValue
+                    };
+                    break;
+                }
+            case updatableParams[3]:
+                {
+                    users[index] = {
+                        ingots:paramValue
+                    };
+                    break;
+                }
+            case updatableParams[4]:
+                {
+                    users[index] = {
+                        level:paramValue
+                    };
+                    break;
+                }
+            default:
+                break;
+        }*/
+        users[index] = { 
+            position: '', 
+            userName: paramUser, 
+            password: paramPassword, 
+            coins: users[index].coins, 
+            level: users[index].level,
+            created:  users[index].created,
+            updated: new Date()
+        };
+        //Sort the ranking
+        UpdateRanking();
+        //Search User Again
+        index = users.findIndex(j => j.userName === paramUser);
+        //Response return
+        response = code202;
+        response.jugador = users[index];
+    } else {
+        response = index==-1?codeError504: codeError506;
+    }
+    
+    res.send(response);
+});
 
-    if (paramalias === '' || paramname === '' || paramsurname === '' || parseInt(paramScore) <= 0 || paramScore === '') {
+/*app.put('/users/:userName', function (req, res) {//put de actualizar valores
+    var paramUser = req.params.userName || '';
+    var paramPassword = req.body.password || '';
+    var paramCoins = req.body.coins || '';
+    var paramLevel = req.body.level || '';
+    var paramIngots = req.body.ingots || '';
+
+    if (paramUser === '' || paramPassword === '' || paramCoins === '' || parseInt(paramLevel) <= 0 || paramLevel === '' || parseInt(paramLevel <=0 || paramIngots ==='' || paramIngots <=0)) {
         response = codeError502; //Paràmetres incomplerts
     } else {
-        //Player Search
-        var index = players.findIndex(j => j.alias === paramalias)
+        //User Search
+        var index = users.findIndex(j => j.userName === paramUser)
 
         if (index != -1) {
-            //Update Player
-            players[index] = { 
+            //Update User
+            users[index] = { 
                 position: '', 
-                alias: paramalias, 
-                name: paramname, 
-                surname: paramsurname, 
-                score: paramScore,
-                created:  players[index].created,
+                userName:users[index].userName, 
+                password: users[index].password, 
+                coins: paramCoins, 
+                level: paramLevel,
+                created:  users[index].created,
                 updated: new Date()
             };
             //Sort the ranking
             UpdateRanking();
-            //Search Player Again
-            index = players.findIndex(j => j.alias === paramalias);
+            //Search User Again
+            index = users.findIndex(j => j.userName === paramUser);
             //Response return
             response = code202;
-            response.jugador = players[index];
+            response.jugador = users[index];
         } else {
             response = codeError504;
         }
     }
     res.send(response);
-});
+});*/
 
 }
 exports.myApi = myApi;
