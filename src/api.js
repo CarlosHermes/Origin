@@ -1,7 +1,5 @@
 //const { response } = require("express");
 
-//const { Socket } = require("socket.io");
-//const socket = io()
 myApi = function (app){
     
 let code100 = { code: 100, error: false, message: 'Game Server Up' };
@@ -16,8 +14,6 @@ let codeError504 = { code: 504, error: true, message: 'Error: User not found' };
 let codeError505 = { code: 505, error: true, message: "Error: Incorrect Username or Password"};
 let codeError506 = { code: 506, error: true, message: "Error: Incorrect Field"};
 let codeError507 = { code: 507, error: true, message: "Error: Incorrect Password"};
-
-//var login = false;
 
 var users = [
     { position: "1", userName: "jperez", password: "sdaasdasfasd", coins: "0", ingots: "0", level: 1000, created: "2020-11-03T15:20:21.377Z"},
@@ -36,15 +32,10 @@ function UpdateRanking() {
     for (x = 0; x < users.length; x++) {
         users[x].position = x + 1;
     }
-    //socket.emit('ranking', users);
 };
 
-/*app.put('/users', function (req, res){
-    login = false;
-});*/
-
 app.get('/', function (req, res) {
-    //code funciona ok
+    //code work ok
     res.send(code100);
 });
 
@@ -59,8 +50,8 @@ app.get('/login', function (req, res){
 
     var index = users.findIndex(j => j.userName === paramUser);
     var index2 = users.findIndex(j => j.password === paramPassword);
-    response = index >= 0 && index2 >=0? code204: codeError505;
-    //login = (index >= 0 && index2 >=0);
+    //login succeed or incorrect login/password
+    response = index,index2 >=0? code204: codeError505;
     res.send(response)
 });
 
@@ -79,13 +70,13 @@ app.get('/users/:userName', function (req, res) {
     res.send(response);
 });
 
-app.post('/users/:userName', function (req, res) {  //hacer post de crear usuario               
+app.post('/users/:userName', function (req, res) {  //registrate               
     var paramUser = req.params.userName || '';
     var paramPassword = req.body.password || '';
 
-    if (paramUser === '' || paramPassword === '') {
-        response = codeError502;
-    } else {
+    /*if (paramUser === '' || paramPassword === '') {
+        response.Code = codeError502;
+    } else {*/
         //User Search
         var index = users.findIndex(j => j.userName === paramUser)
 
@@ -111,18 +102,19 @@ app.post('/users/:userName', function (req, res) {  //hacer post de crear usuari
             response = code201;
             response.User = users[index];
         }
-    }
+    //}
     res.send(response);
 });
 
 
-app.put('/users/:userName', function (req, res) { //put de cambiar algún campo  
+app.put('/users/:userName', function (req, res) { //update a field 
     var paramUser = req.params.userName || '';
     var paramField = req.body.field || '';
     var paramValue = req.body.value || '';
         //User Search
     var index = users.findIndex(j => j.userName === paramUser)
-    var index2 = updatableParams.findIndex(j => j == paramField);
+        //Check if the field is updatable
+    var index2 = updatableParams.findIndex(j => j == paramField); 
     if (index != -1 && index2 != -1) {
         //Update User
         users[index] = { 
@@ -147,6 +139,7 @@ app.put('/users/:userName', function (req, res) { //put de cambiar algún campo
         response = code202;
         response.User = users[index];
     } else {
+        //Failed username or field
         response = index==-1?codeError504: codeError506;
     }
     res.send(response);

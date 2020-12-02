@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>TestSocket</title>
+        <link rel="stylesheet" href="cssJavascript.css" type="text/css" />    
+        <!--<script>
+            function clicker(operador){
+                socketTest.js.clicker(operador);
+            }
+        </script>-->
+        <!--<script>
+            
+            function clicker(operador) {
+                var solucio;
+                num1 = document.getElementById("arriba").value;
+                num2 = document.getElementById("abajo").value;
+                num1 = parseInt(num1);
+                num2 = parseInt(num2);
+                if ((isNaN(num1)) || (isNaN(num2)))
+                    {
+                        solucio= "Has d'escriure numeros";
+                    }
+                else{
+
+                    document.getElementById("operacion").innerText = operador;
+                    switch(operador)
+                    {
+                        case '+':
+                            solucio= num1 + num2;
+                            break;
+                        case '-':
+                            solucio= (num1 - num2);
+                            break;
+                        case '*':
+                            solucio= (num1 * num2);
+                            break;
+                        case '/':
+                            solucio= (num1 / num2);
+                            break;
+                    }
+                }
+                document.getElementById("solucio").innerText = solucio;
+            }
+        </script>-->
+    </head>
+    <body>
+        <div class="general">
+            <div>
+                <div class="buttons">
+                    <button onclick="clicker('server')">server</button>
+                </div>
+                <div>
+                    <p id="resServer"></p>
+                </div>
+                <div>
+                    ______________________
+                </div>
+                <h1>Login</h1>
+                <div>
+                    <input type="string" id="username">
+                </div>
+                <!--<div>
+                    <p id="operacion"></p>
+                </div>-->
+                <div>
+                    <input type="string" id="password">
+                </div>
+                <div class="buttons">
+                    <button onclick="clicker('login')">login</button>
+                </div>
+                <div>
+                    <p id="resLogin"></p>
+                </div>
+                <div>
+                    ______________________
+                </div>
+                <h1>Register</h1>
+
+                <div>
+                    <input type="string" id="username2">
+                </div>
+                <div>
+                    <input type="string" id="password2">
+                </div>
+                <div class="buttons">
+                    <button onclick="clicker('register')">register</button>
+                </div>
+                <div>
+                    <p id="resRegister"></p>
+                </div>
+                <div>
+                    ______________________
+                </div>
+                <div class="buttons">
+                    <button onclick="clicker('ranking')">ranking</button>
+                </div>
+                <div>
+                    <p id="resRanking"></p>
+                </div>
+                <div>
+                    ______________________
+                </div>
+                <div class="buttons">
+                    <button onclick="clicker('myData')">myData</button>
+                </div>
+                <div>
+                    <p id="resUser"></p>
+                </div>
+                <div>
+                    ______________________
+                </div>
+                <h1>UpdateField</h1>
+                <div>
+                    <input type="string" id="field">
+                </div>
+                <div>
+                    <input type="string" id="value">
+                </div>
+                <div class="buttons">
+                    <button onclick="clicker('update')">update</button>
+                </div>
+                <div>
+                    <p id="resUpdate"></p>
+                </div>
+                <div>
+                    ______________________
+                </div>
+                <h1>DeleteUser</h1>
+                <div>
+                    <input type="string" id="password3">
+                </div>
+                <div class="buttons">
+                    <button onclick="clicker('delete')">delete</button>
+                </div>
+                <div>
+                    <p id="resDelete"></p>
+                </div>
+                <div>
+                    ______________________
+                </div>
+
+            <!--</div>
+            <div class="c2">
+                <div class="buttons">
+                    <button onclick="clicker('login')">login</button>
+                </div>
+                <div class="buttons">
+                    <button onclick="clicker('-')">-</button>
+                </div>
+                <div class="buttons">
+                    <button onclick="clicker('*')">*</button>
+                </div>
+                <div class="buttons">
+                    <button onclick="clicker('/')">/</button>
+                </div>
+            </div>-->
+        </div>
+        <script src="/socket.io/socket.io.js" charset="UTF-8"></script>
+        <script src="socketTest.js" charset="UTF-8"></script>
+    </body>
+</html>
