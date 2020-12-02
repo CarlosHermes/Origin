@@ -12,7 +12,19 @@ app.use(bodyParser.json());
 
 //app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+
 api.myApi(app);
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log("El servidor está inicializado en el puerto 3000");
 });
+
+const SocketIO = required('socket.io');
+const io = SocketIO(server);
+
+io.on('connection' , () => {
+    console.log('new connection');
+});
+
+// en cliente:
+//src = "/socket.io/socket.io.js"
+src= "chat.js"
