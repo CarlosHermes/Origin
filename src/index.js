@@ -7,10 +7,10 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//var swaggerUi = require('swagger-ui-express');
-//var swaggerDocument = require('./swagger.json');
+var swaggerUi = require('swagger-ui-express');
+var swaggerDocument = require('./swagger.json');
 
-//app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 api.myApi(app);
@@ -18,13 +18,16 @@ const server = app.listen(PORT, () => {
     console.log("El servidor está inicializado en el puerto 3000");
 });
 
-const SocketIO = required('socket.io');
+const SocketIO = require('socket.io');
 const io = SocketIO(server);
 
-io.on('connection' , () => {
+/*io.on('con0nection' , () => {
     console.log('new connection');
-});
+    socket.on('function', data =>{
+        console.log(data);
+        io.sockets.emit('function', data);
+    });
+    //socket.emit();
+});*/
 
-// en cliente:
-//src = "/socket.io/socket.io.js"
-src= "chat.js"
+
