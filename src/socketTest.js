@@ -29,11 +29,12 @@ function requesttSend(ttype, uurl, ddata)
 }
 
 // xhr.send('string');
-function clicker(action) {
+BigInt.addEventListener ('click', function (){
     document.getElementById("operacion").innerText = action;
     switch(action)
     {
         case 'server':
+            console.log("server");
             //resp= xmlhttprequest.send("http://localhost:3000/");
             resp = requesttSend('Get', 'http://localhost:3000/', null);
             idvar = 'resServer';
@@ -80,4 +81,5 @@ function clicker(action) {
     }
 
 document.getElementById(idvar).innerText = resp;
-};
+});
+

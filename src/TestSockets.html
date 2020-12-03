@@ -3,7 +3,98 @@
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>TestSocket</title>
-        <link rel="stylesheet" href="cssJavascript.css" type="text/css" />    
+        <!--<link rel="stylesheet" href="cssJavascript.css" type="text/css" />-->    
+        <script>
+            
+            let username = document.getElementById('username');
+            let password = document.getElementById('password');
+            let username2 = document.getElementById('username2');
+            let password2 = document.getElementById('password2');
+            let field = document.getElementById('field');
+            let value = document.getElementById('value');
+            let password3 = document.getElementById('password3');
+
+            var user = '';
+
+            var requestt = new XMLHttpRequest();
+
+            function requesttSend(ttype, uurl, ddata)
+            {
+                if(requestt)
+                {
+                requestt.open(ttype, uurl, true);
+                requestt.setRequestHeader('X-PINGOTHER', 'pingpong');
+                requestt.setRequestHeader('Content-Type', 'application/xml');
+                requestt.send(ddata);
+                requestt.onload = function () {
+                }
+                    return requestt.response;
+                };
+            }
+
+            // xhr.send('string');
+            function clicker(action) {
+                var data;
+                var resp;
+                switch(action)
+                {
+                    case 'server':
+                        //document.getElementById("resLogin").innerText = action;
+                        //resp= xmlhttprequest.send("http://localhost:3000/");
+                        resp = requesttSend('Get', 'http://localhost:3000/', null);
+                        idvar = 'resServer';
+                        break;
+                    case 'login':
+                        //document.getElementById("resLogin").innerText = action;
+                        data = {
+                            "userName": username,
+                            "password": password
+                        }
+                        resp = requesttSend('Get', 'http://localhost:3000/login', data);
+                        idvar = 'resLogin';
+                        user = !resp.error? username: '';
+                        break;
+                    case 'register':
+                        //document.getElementById("resLogin").innerText = action;    
+                        data = {
+                            "password": password2
+                        }
+                        resp = requesttSend('Post', 'http://localhost:3000/users/:' + username2, data);
+                        idvar ='resRegister';
+                        break;
+                    case 'ranking':
+                        //document.getElementById("resLogin").innerText = action;
+                        resp = requesttSend('Get', 'http://localhost:3000/ranking', null);
+                        idvar =='resRanking';
+                        break;
+                    case 'myData':
+                        //document.getElementById("resLogin").innerText = action;
+                        resp = requesttSend('Get', 'http://localhost:3000/users/:' + user, null);
+                        idvar =='resUser';
+                        break;    
+                    case 'update':
+                        //document.getElementById("resLogin").innerText = action;
+                        data = {
+                            "field" : field,
+                            "value" : value
+                        }
+                        resp = requesttSend('Put', 'http://localhost:3000/users/:' + user, data);
+                        idvar =='resUpdate';
+                        break;
+                    case 'delete':
+                        //document.getElementById("resLogin").innerText = action;
+                        data = {
+                            "password" : password3
+                        }
+                        resp = requesttSend('Delete', 'http://localhost:3000/users/:' + user, data);
+                        idvar =='resDelete';
+                        break;
+                }
+
+            document.getElementById(idvar).innerText = resp;
+            }
+            
+        </script>
         <!--<script>
             function clicker(operador){
                 socketTest.js.clicker(operador);
@@ -156,7 +247,7 @@
                 </div>
             </div>-->
         </div>
-        <script src="/socket.io/socket.io.js" charset="UTF-8"></script>
-        <script src="socketTest.js" charset="UTF-8"></script>
+        <!--<script src="/socket.io/socket.io.js" charset="UTF-8"></script>-->
+        <!--<script src="socketTest.js" charset="UTF-8"></script>-->
     </body>
 </html>

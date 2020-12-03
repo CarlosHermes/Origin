@@ -12,6 +12,12 @@ var swaggerDocument = require('./swagger.json');
 
 app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+/*app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "file:///C:/Users/Misi/Documents/GitHub/Origin/src/TestSockets.html"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});*/
+
 
 api.myApi(app);
 const server = app.listen(PORT, () => {

@@ -1,13 +1,12 @@
 //const { response } = require("express");
-
 myApi = function (app){
-    
+
 let code100 = { code: 100, error: false, message: 'Game Server Up' };
 let code200 = { code: 200, error: false, message: 'User Exists' };
 let code201 = { code: 201, error: false, message: 'User Correctly Created' };
 let code202 = { code: 201, error: false, message: 'User Correctly Updated' };
 let code203 = { code: 201, error: false, message: 'User Correctly Deleted' };
-let code204 = { cpde: 201, error: false, message: 'Login succeeded'};
+let code204 = { code: 201, error: false, message: 'Login succeeded'};
 //let codeError502 = { code: 503, error: true, message: 'The field: password, coins, level are mandatories (the level value has to be >0)' };
 let codeError503 = { code: 503, error: true, message: 'Error: User Already Exists' };
 let codeError504 = { code: 504, error: true, message: 'Error: User not found' };
