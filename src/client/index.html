@@ -5,7 +5,7 @@
         <title>TestSocket</title>
         <!--<link rel="stylesheet" href="cssJavascript.css" type="text/css" />-->    
         <script>
-            
+
             let username = document.getElementById('username');
             let password = document.getElementById('password');
             let username2 = document.getElementById('username2');
@@ -15,6 +15,7 @@
             let password3 = document.getElementById('password3');
 
             var user = '';
+            //var http = require('http');
 
             var requestt = new XMLHttpRequest();
 
@@ -23,8 +24,8 @@
                 if(requestt)
                 {
                 requestt.open(ttype, uurl, true);
-                requestt.setRequestHeader('X-PINGOTHER', 'pingpong');
-                requestt.setRequestHeader('Content-Type', 'application/xml');
+                //requestt.setRequestHeader('X-PINGOTHER', 'pingpong');
+                requestt.setRequestHeader('Content-Type', 'application/json');
                 requestt.send(ddata);
                 requestt.onload = function () {
                 }
@@ -34,15 +35,32 @@
 
             // xhr.send('string');
             function clicker(action) {
-                var data;
+                var data = '';
                 var resp;
                 switch(action)
                 {
                     case 'server':
                         //document.getElementById("resLogin").innerText = action;
                         //resp= xmlhttprequest.send("http://localhost:3000/");
-                        resp = requesttSend('Get', 'http://localhost:3000/', null);
-                        idvar = 'resServer';
+                        //resp = requesttSend('Get', 'http://localhost:3000/', null);
+                        //resp = requesttSend('GET', 'localhost:3000/test', data);
+                        const options = {
+                            method: 'GET',
+                            headers:{
+                                'Content-Type': 'application/json'
+                            },
+                            //body: JSON.stringify(data)
+                        }
+                        resp = fetch('/test', options);
+                        /*http.get({
+                            hostname: 'localhost',
+                            port: 3000,
+                            path: '/'
+                        }, (res) => {
+                            idvar = 'asdasdasd'
+                        });*/
+                        //socket.emit('body')
+                        //console.log(resp);
                         break;
                     case 'login':
                         //document.getElementById("resLogin").innerText = action;
@@ -50,8 +68,8 @@
                             "userName": username,
                             "password": password
                         }
-                        resp = requesttSend('Get', 'http://localhost:3000/login', data);
-                        idvar = 'resLogin';
+                        resp = requesttSend('Get', 'localhost:3000/login', data);
+                        //idvar = 'resLogin';
                         user = !resp.error? username: '';
                         break;
                     case 'register':
@@ -60,17 +78,17 @@
                             "password": password2
                         }
                         resp = requesttSend('Post', 'http://localhost:3000/users/:' + username2, data);
-                        idvar ='resRegister';
+                        //idvar ='resRegister';
                         break;
                     case 'ranking':
                         //document.getElementById("resLogin").innerText = action;
-                        resp = requesttSend('Get', 'http://localhost:3000/ranking', null);
-                        idvar =='resRanking';
+                        resp = requesttSend('Get', 'http://localhost:3000/ranking', data);
+                        //idvar =='resRanking';
                         break;
                     case 'myData':
                         //document.getElementById("resLogin").innerText = action;
-                        resp = requesttSend('Get', 'http://localhost:3000/users/:' + user, null);
-                        idvar =='resUser';
+                        resp = requesttSend('Get', 'http://localhost:3000/users/:' + user, data);
+                        //idvar =='resUser';
                         break;    
                     case 'update':
                         //document.getElementById("resLogin").innerText = action;
@@ -79,7 +97,7 @@
                             "value" : value
                         }
                         resp = requesttSend('Put', 'http://localhost:3000/users/:' + user, data);
-                        idvar =='resUpdate';
+                        //idvar =='resUpdate';
                         break;
                     case 'delete':
                         //document.getElementById("resLogin").innerText = action;
@@ -87,11 +105,11 @@
                             "password" : password3
                         }
                         resp = requesttSend('Delete', 'http://localhost:3000/users/:' + user, data);
-                        idvar =='resDelete';
+                        //idvar =='resDelete';
                         break;
                 }
-
-            document.getElementById(idvar).innerText = resp;
+                idvar = action;
+                document.getElementById(idvar).innerText = resp;
             }
             
         </script>
@@ -138,11 +156,12 @@
     <body>
         <div class="general">
             <div>
+                <h1>ServerStatus</h1>
                 <div class="buttons">
                     <button onclick="clicker('server')">server</button>
                 </div>
                 <div>
-                    <p id="resServer"></p>
+                    <p id="server"></p>
                 </div>
                 <div>
                     ______________________
@@ -161,7 +180,7 @@
                     <button onclick="clicker('login')">login</button>
                 </div>
                 <div>
-                    <p id="resLogin"></p>
+                    <p id="login"></p>
                 </div>
                 <div>
                     ______________________
@@ -178,7 +197,7 @@
                     <button onclick="clicker('register')">register</button>
                 </div>
                 <div>
-                    <p id="resRegister"></p>
+                    <p id="register"></p>
                 </div>
                 <div>
                     ______________________
@@ -187,7 +206,7 @@
                     <button onclick="clicker('ranking')">ranking</button>
                 </div>
                 <div>
-                    <p id="resRanking"></p>
+                    <p id="ranking"></p>
                 </div>
                 <div>
                     ______________________
@@ -196,7 +215,7 @@
                     <button onclick="clicker('myData')">myData</button>
                 </div>
                 <div>
-                    <p id="resUser"></p>
+                    <p id="myData"></p>
                 </div>
                 <div>
                     ______________________
@@ -212,7 +231,7 @@
                     <button onclick="clicker('update')">update</button>
                 </div>
                 <div>
-                    <p id="resUpdate"></p>
+                    <p id="update"></p>
                 </div>
                 <div>
                     ______________________
@@ -225,7 +244,7 @@
                     <button onclick="clicker('delete')">delete</button>
                 </div>
                 <div>
-                    <p id="resDelete"></p>
+                    <p id="delete"></p>
                 </div>
                 <div>
                     ______________________
