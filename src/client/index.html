@@ -15,20 +15,143 @@
 
             var user = '';
 
-            function getResp(whichPage, whichID) {
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            /// BASADO EN AJAXCRAFT
+            function getResp(whichPage) {
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         var jsonDoc = this.responseText;
                         //jsonDoc = JSON.parse(jsonDoc);
                         //jsonDoc = JSON.stringify(jsonDoc);
-                        document.getElementById(whichID).innerHTML = jsonDoc;
+                        document.getElementById(whichPage).innerHTML = jsonDoc;
                     }
                 }
                 xhttp.open("GET", "/" + whichPage, true);
                 xhttp.setRequestHeader('Content-type', 'application/json');
                 xhttp.send();
             }
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            /// BASADO EN TU CODIGO
+            request = new XMLHttpRequestUpload();
+            function requestSend(type, url, whichId, data)
+            {
+                if (request) {
+                    request.onload = function () {
+                        var jsonDoc = this.responseText;
+                        //jsonDoc = JSON.parse(jsonDoc);
+                        //jsonDoc = JSON.stringify(jsonDoc);
+                        document.getElementById(whichId).innerHTML = jsonDoc;
+                    }
+                    //request.onerror = function(){ alert(request.responseText); }
+                    request.open(type, url, true);
+                    request.setRequestHeader('Content-Type', 'application/json');
+                    //if (data == '') data = { user: 'algo', score: 0 }
+                    request.send(JSON.stringify(data));
+                }
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            /// EJEMPLO DE FETCH BASADO EN STACKOVERFLOW
+            function tryFetch(method, url) {
+                fetch(url, {
+                    method: method,
+                    body: new FormData(document.getElementById("inputform")),
+                    // -- or --
+                    // body : JSON.stringify({
+                    // user : document.getElementById('user').value,
+                    // ...
+                    // })
+                }).then(
+                    response => response.json()
+                ).then(
+                    html => console.log(html)
+                )
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            /// ESTE MASTODONTE SE PUEDE SIMPLIFICAR
+            function clicker(action) {
+                var data = '';
+                var resp;
+                switch(action)
+                {
+                    case 'server':
+                        //document.getElementById("resLogin").innerText = action;
+                        //resp= xmlhttprequest.send("http://localhost:3000/");
+                        //resp = requesttSend('Get', 'http://localhost:3000/', null);
+                        //resp = requesttSend('GET', 'localhost:3000/test', data);
+                        const options = {
+                            method: 'GET',
+                            headers:{
+                                'Content-Type': 'application/json'
+                            },
+                            //body: JSON.stringify(data)
+                        }
+                        resp = fetch('/test', options);
+                        /*http.get({
+                            hostname: 'localhost',
+                            port: 3000,
+                            path: '/'
+                        }, (res) => {
+                            idvar = 'asdasdasd'
+                        });*/
+                        //socket.emit('body')
+                        //console.log(resp);
+                        break;
+                    case 'login':
+                        //document.getElementById("resLogin").innerText = action;
+                        data = {
+                            "userName": username,
+                            "password": password
+                        }
+                        resp = requesttSend('Get', 'localhost:3000/login', data);
+                        //idvar = 'resLogin';
+                        user = !resp.error? username: '';
+                        break;
+                    case 'register':
+                        //document.getElementById("resLogin").innerText = action;
+                        data = {
+                            "password": password2
+                        }
+                        resp = requesttSend('Post', 'http://localhost:3000/users/:' + username2, data);
+                        //idvar ='resRegister';
+                        break;
+                    case 'ranking':
+                        //document.getElementById("resLogin").innerText = action;
+                        resp = requesttSend('Get', 'http://localhost:3000/ranking', data);
+                        //idvar =='resRanking';
+                        break;
+                    case 'myData':
+                        //document.getElementById("resLogin").innerText = action;
+                        resp = requesttSend('Get', 'http://localhost:3000/users/:' + user, data);
+                        //idvar =='resUser';
+                        break;
+                    case 'update':
+                        //document.getElementById("resLogin").innerText = action;
+                        data = {
+                            "field" : field,
+                            "value" : value
+                        }
+                        resp = requesttSend('Put', 'http://localhost:3000/users/:' + user, data);
+                        //idvar =='resUpdate';
+                        break;
+                    case 'delete':
+                        //document.getElementById("resLogin").innerText = action;
+                        data = {
+                            "password" : password3
+                        }
+                        resp = requesttSend('Delete', 'http://localhost:3000/users/:' + user, data);
+                        //idvar =='resDelete';
+                        break;
+                }
+                idvar = action;
+                document.getElementById(idvar).innerText = resp;
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////
         </script>
     </head>
     <body>
@@ -36,7 +159,8 @@
             <div>
                 <h1>ServerStatus</h1>
                 <div class="buttons">
-                    <button onclick="getResp('test', 'server')">server</button>
+                    <button onclick="getResp('server')">server</button>
+                    <button onclick="requestSend('GET', '/server', 'server', '')">server</button>
                 </div>
                 <div>
                     <p id="server"></p>
@@ -55,7 +179,7 @@
                     <input type="string" id="password">
                 </div>
                 <div class="buttons">
-                    <button onclick="testServer('login', 'login')">login</button>
+                    <button onclick="requestSend('GET', '/server', 'server')">login</button>
                 </div>
                 <div>
                     <p id="login"></p>
