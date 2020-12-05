@@ -3,16 +3,16 @@ const express = require("express");
 const app = express();
 const api = require('./api');
 const PORT = process.env.PORT || 3000;
-//var path = require('path');
+var path = require('path');
 //const rout = express.Router();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
 var swaggerUi = require('swagger-ui-express');
 var swaggerDocument = require('./swagger.json');
-app.use(express.static('client'))
+//app.use(express.static('client'))
 app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-//app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, 'client')));
 
 // app.use(function(req, res, next) {
 //     res.header("Access-Control-Allow-Origin", "file:///C:/Users/CarlosCC/nodejs/2damvi/src/TestSockets.html"); // update to match the domain you will make the request from

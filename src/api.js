@@ -55,7 +55,7 @@ function UpdateRanking() {
     next();
 });*/
 
-app.get('/test', function (req, res) {
+app.get('/server', function (req, res) {
     //code works ok
      //res.send(code100);
      res.json(code100);
