@@ -55,11 +55,11 @@
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
             /// EJEMPLO DE FETCH BASADO EN STACKOVERFLOW
+            /// INFO: https://davidwalsh.name/fetch // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
             function tryFetch(method, url) {
                 fetch(url, {
                     method: method,
                     body: new FormData(document.getElementById("inputform")),
-                    // -- or --
                     // body : JSON.stringify({
                     // user : document.getElementById('user').value,
                     // ...
