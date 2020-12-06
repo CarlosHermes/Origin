@@ -3,11 +3,10 @@
         /// EXPRESS
         const express = require("express"),
         app = express(),
-        router = express.Router(),
           /// PARSER
         bodyParser = require("body-parser"),
           /// API
-        api = require("./api"),
+        api = require("./apiAlt"),
           /// SWAGGER
         swaggerUi = require('swagger-ui-express'),
         swaggerDocument = require('./swagger.json'),
@@ -33,13 +32,12 @@
   ///////////////////////////////////////
   ///// SET OPENAPI
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-  app.use('/api', router);
+  app.use('/api', api);
   
   ///////////////////////////////////////
   ///// SET EXTERNAL SCRIPTS
-  app.io = io;
-  api.set(router);
-  socket.set(app.io);
+  api.io = io;
+  socket.set(api.io);
   
   ///////////////////////////////////////
   ///// MAIN HTML INDEX

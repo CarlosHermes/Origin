@@ -1,4 +1,4 @@
-api = function (app){
+var app = require('express').Router();
 let code100 = { code: 100, error: false, message: 'Game Server Up' };
 let code200 = { code: 200, error: false, message: 'User Exists' };
 let code201 = { code: 201, error: false, message: 'User Correctly Created' };
@@ -170,7 +170,6 @@ app.delete('/users/:userName', function (req, res){
     res.send(response);
 });
 
-}
-
-module.exports = {set: api};
-
+module.exports = app;
+    
+    
