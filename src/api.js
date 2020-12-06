@@ -1,15 +1,5 @@
-//const { response } = require("express");
-//const bodyParser = require("body-parser");
-//const express = require("express");
-//const app = express();
-
-//app.use(bodyParser.urlencoded({ extended: false }));
-//app.use(bodyParser.json());
-
-//const { Socket } = require("socket.io");
-//const socket = io()
-myApi = function (app){
-    
+api = function (app){
+    const io = app.io;
 let code100 = { code: 100, error: false, message: 'Game Server Up' };
 let code200 = { code: 200, error: false, message: 'User Exists' };
 let code201 = { code: 201, error: false, message: 'User Correctly Created' };
@@ -45,17 +35,7 @@ function UpdateRanking() {
     //socket.emit('ranking', users);
 };
 
-/*app.use(function(req, res, next) {                                              
-    //res.header("Access-Control-Allow-Origin", "file:///C:/Users/CarlosCC/nodejs/2damvi/src/TestSockets.html"); // update to match the domain you will make the request from
-    res.setHeader('Access-Control-Allow-Origin', 'file:///C:/Users/CarlosCC/nodejs/2damvi/src/TestSockets.html');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});*/
-
-app.get('/server', function (req, res) {
+app.get('/', function (req, res) {
     //code works ok
      //res.send(code100);
      res.json(code100);
@@ -63,12 +43,6 @@ app.get('/server', function (req, res) {
     //res.sendfile('./TestSockets.html', code100.error);
 });
 
-app.get('/', function (req, res) {
-    //code works ok
-    //res.send(code100);
-    res.sendFile('index.html');
-    //res.sendfile('./TestSockets.html', code100.error);
-});
 
 app.get('/ranking', function (req, res) {
     let ranking = { numberplayers: users.length, users: users };
@@ -198,5 +172,6 @@ app.delete('/users/:userName', function (req, res){
 });
 
 }
-exports.myApi = myApi;
+
+module.exports = {set: api};
 

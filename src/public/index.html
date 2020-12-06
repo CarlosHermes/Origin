@@ -3,7 +3,8 @@
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>TestSocket</title>
-        <!--<link rel="stylesheet" href="cssJavascript.css" type="text/css" />-->    
+        <!--<link rel="stylesheet" href="cssJavascript.css" type="text/css" />-->
+        <script src='/socket.io/socket.io.js'></script>
         <script>
             let username = document.getElementById('username');
             let password = document.getElementById('password');
@@ -28,14 +29,14 @@
                         document.getElementById(whichPage).innerHTML = jsonDoc;
                     }
                 }
-                xhttp.open("GET", "/" + whichPage, true);
+                xhttp.open("GET", "/api", true);
                 xhttp.setRequestHeader('Content-type', 'application/json');
                 xhttp.send();
             }
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
             /// BASADO EN TU CODIGO
-            request = new XMLHttpRequestUpload();
+            var request = new XMLHttpRequest();
             function requestSend(type, url, whichId, data)
             {
                 if (request) {
@@ -152,6 +153,20 @@
             }
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
+            /// SOCKET CONFIG
+            var socket = io();
+            var el;
+
+            socket.on('time', (timeString) => {
+                el = document.getElementById('server-time')
+                el.innerHTML = 'Server time: ' + timeString;
+            });
+
+            socket.on('welcome', (msg) => {
+                alert(msg);
+            });
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////
         </script>
     </head>
     <body>
@@ -160,10 +175,13 @@
                 <h1>ServerStatus</h1>
                 <div class="buttons">
                     <button onclick="getResp('server')">server</button>
-                    <button onclick="requestSend('GET', '/server', 'server', '')">server</button>
+                    <button onclick="requestSend('GET', '/api', 'server', '')">server</button>
                 </div>
                 <div>
                     <p id="server"></p>
+                </div>
+                <div>
+                    <p id="server-time"></p>
                 </div>
                 <div>
                     ______________________
