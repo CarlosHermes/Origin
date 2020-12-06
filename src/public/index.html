@@ -154,6 +154,7 @@
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
             /// SOCKET CONFIG
+            /*
             var socket = io();
             var el;
 
@@ -165,6 +166,35 @@
             socket.on('welcome', (msg) => {
                 alert(msg);
             });
+            */
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            /// TESTING
+            function logged(){
+                const socket = io();
+                socket.on('time', (timeString) => {
+                    el = document.getElementById('server-time')
+                    el.innerHTML = 'Server time: ' + timeString;
+                });
+            }
+
+            function login(){
+                if (request) {
+                    request.onload = function () {
+                        logged();
+                        var jsonDoc = this.responseText;
+                        //jsonDoc = JSON.parse(jsonDoc);
+                        //jsonDoc = JSON.stringify(jsonDoc);
+                        document.getElementById('login').innerHTML = jsonDoc;
+                    }
+                    //request.onerror = function(){ alert(request.responseText); }
+                    request.open('POST', '/api/login', true);
+                    request.setRequestHeader('Content-Type', 'application/json');
+                    data = { userName: username.value, password: password.value }
+                    console.log(data);
+                    request.send(JSON.stringify(data));
+                }
+            }
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
         </script>
@@ -197,7 +227,7 @@
                     <input type="string" id="password">
                 </div>
                 <div class="buttons">
-                    <button onclick="requestSend('GET', '/server', 'server')">login</button>
+                    <button onclick="login()">login</button>
                 </div>
                 <div>
                     <p id="login"></p>

@@ -1,4 +1,5 @@
-socket = (io) => {
+socket = (app) => {
+    let io = app.get('socketio');
     io.on('connection' , (socket) => {
         console.log('Client connected', socket.id);
         socket.emit('welcome', 'Bienvenido')
