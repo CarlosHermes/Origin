@@ -1,4 +1,4 @@
- const router = require('express').Router();
+const router = require('express').Router();
 
 let code100 = {code: 100, error: false, message: 'Game Server Up'};
 let code200 = {code: 200, error: false, message: 'User Exists'};
