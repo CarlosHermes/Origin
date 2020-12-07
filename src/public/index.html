@@ -6,20 +6,13 @@
         <!--<link rel="stylesheet" href="cssJavascript.css" type="text/css" />-->
         <script src='/socket.io/socket.io.js'></script>
         <script>
-            let username = document.getElementById('username');
-            let password = document.getElementById('password');
-            let username2 = document.getElementById('username2');
-            let password2 = document.getElementById('password2');
-            let field = document.getElementById('field');
-            let value = document.getElementById('value');
-            let password3 = document.getElementById('password3');
-
-            var user = '';
+            let userLogged = {a:''};
+            var socketTriggers = ["coins", "ingots", "level"];
 
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
             /// BASADO EN AJAXCRAFT
-            function getResp(whichPage) {
+            function getResp(whichPage) {                
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
@@ -39,6 +32,7 @@
             var request = new XMLHttpRequest();
             function requestSend(type, url, whichId, data)
             {
+                console.log(request);
                 if (request) {
                     request.onload = function () {
                         var jsonDoc = this.responseText;
@@ -73,86 +67,6 @@
             }
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
-            /// ESTE MASTODONTE SE PUEDE SIMPLIFICAR
-            function clicker(action) {
-                var data = '';
-                var resp;
-                switch(action)
-                {
-                    case 'server':
-                        //document.getElementById("resLogin").innerText = action;
-                        //resp= xmlhttprequest.send("http://localhost:3000/");
-                        //resp = requesttSend('Get', 'http://localhost:3000/', null);
-                        //resp = requesttSend('GET', 'localhost:3000/test', data);
-                        const options = {
-                            method: 'GET',
-                            headers:{
-                                'Content-Type': 'application/json'
-                            },
-                            //body: JSON.stringify(data)
-                        }
-                        resp = fetch('/test', options);
-                        /*http.get({
-                            hostname: 'localhost',
-                            port: 3000,
-                            path: '/'
-                        }, (res) => {
-                            idvar = 'asdasdasd'
-                        });*/
-                        //socket.emit('body')
-                        //console.log(resp);
-                        break;
-                    case 'login':
-                        //document.getElementById("resLogin").innerText = action;
-                        data = {
-                            "userName": username,
-                            "password": password
-                        }
-                        resp = requesttSend('Get', 'localhost:3000/login', data);
-                        //idvar = 'resLogin';
-                        user = !resp.error? username: '';
-                        break;
-                    case 'register':
-                        //document.getElementById("resLogin").innerText = action;
-                        data = {
-                            "password": password2
-                        }
-                        resp = requesttSend('Post', 'http://localhost:3000/users/:' + username2, data);
-                        //idvar ='resRegister';
-                        break;
-                    case 'ranking':
-                        //document.getElementById("resLogin").innerText = action;
-                        resp = requesttSend('Get', 'http://localhost:3000/ranking', data);
-                        //idvar =='resRanking';
-                        break;
-                    case 'myData':
-                        //document.getElementById("resLogin").innerText = action;
-                        resp = requesttSend('Get', 'http://localhost:3000/users/:' + user, data);
-                        //idvar =='resUser';
-                        break;
-                    case 'update':
-                        //document.getElementById("resLogin").innerText = action;
-                        data = {
-                            "field" : field,
-                            "value" : value
-                        }
-                        resp = requesttSend('Put', 'http://localhost:3000/users/:' + user, data);
-                        //idvar =='resUpdate';
-                        break;
-                    case 'delete':
-                        //document.getElementById("resLogin").innerText = action;
-                        data = {
-                            "password" : password3
-                        }
-                        resp = requesttSend('Delete', 'http://localhost:3000/users/:' + user, data);
-                        //idvar =='resDelete';
-                        break;
-                }
-                idvar = action;
-                document.getElementById(idvar).innerText = resp;
-            }
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////////////
             /// SOCKET CONFIG
             /*
             var socket = io();
@@ -169,7 +83,7 @@
             */
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
-            /// TESTING
+            /// JOB DONE
             function logged(){
                 const socket = io();
                 socket.on('time', (timeString) => {
@@ -177,23 +91,73 @@
                     el.innerHTML = 'Server time: ' + timeString;
                 });
             }
-
-            function login(){
-                if (request) {
+            function action(REQ, action, url, data2)
+            {
                     request.onload = function () {
-                        logged();
                         var jsonDoc = this.responseText;
                         //jsonDoc = JSON.parse(jsonDoc);
                         //jsonDoc = JSON.stringify(jsonDoc);
-                        document.getElementById('login').innerHTML = jsonDoc;
+                        document.getElementById(action).innerHTML = jsonDoc;
+                        if (action=='login')
+                        {
+                            userLogged.a = jsonDoc.search('false')==-1? '': data2.userName;
+                            //logged();
+                        }
+                        if (action=='update' && socketTriggers.findIndex(j => j == data2.field)!= -1)
+                        {
+                            logged();
+                        }
                     }
                     //request.onerror = function(){ alert(request.responseText); }
-                    request.open('POST', '/api/login', true);
+                    request.open(REQ, url, true);
                     request.setRequestHeader('Content-Type', 'application/json');
-                    data = { userName: username.value, password: password.value }
-                    console.log(data);
-                    request.send(JSON.stringify(data));
-                }
+                    request.send(JSON.stringify(data2));
+            }
+            function server(){
+                action('GET', 'server', '/api/', '')
+            }
+            function login(){
+                //if (request) {
+                data = { userName: username.value, password: password.value }
+                action('POST', 'login', '/api/login', data)
+                //}
+            }
+            function logout(){
+                document.getElementById('login').innerHTML = userLogged.a == ''? 'you did not log in' : 'logged out';
+                userLogged.a = '';
+            }
+
+            function register(){
+                //if (request) {
+                data = { password: password2.value }
+                action('POST', 'register', '/api/users/'+ document.getElementById('username2').value, data)
+                //}
+            }
+
+            function updateField(){
+                //if (request) {
+                data = { field: field.value, value : value.value }
+                data.value = data.field != "password"? parseInt(data.value): data.value;
+                action('PUT', 'update', '/api/users/'+ userLogged.a, data)
+                //}
+            }
+            
+            function ranking(){
+                //if (request) {
+                action('GET', 'ranking', '/api/ranking', '')
+                //}
+            }
+            function myData(){
+                //if (request) {
+                console.log(userLogged.a);
+                action('GET', 'myData', '/api/users/' + userLogged.a, '')
+                //}
+            }
+            function deleteUser(){
+                //if (request) {
+                data = { password : password3.value }
+                action('DELETE', 'delete', '/api/users/'+ userLogged.a, data)
+                //}
             }
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,8 +168,9 @@
             <div>
                 <h1>ServerStatus</h1>
                 <div class="buttons">
-                    <button onclick="getResp('server')">server</button>
-                    <button onclick="requestSend('GET', '/api', 'server', '')">server</button>
+                    <button onclick="server()">server</button>
+                    <!--<button onclick="getResp('server')">server</button>
+                    <button onclick="requestSend('GET', '/api', 'server', '')">server</button>-->
                 </div>
                 <div>
                     <p id="server"></p>
@@ -220,14 +185,12 @@
                 <div>
                     <input type="string" id="username">
                 </div>
-                <!--<div>
-                    <p id="operacion"></p>
-                </div>-->
                 <div>
                     <input type="string" id="password">
                 </div>
                 <div class="buttons">
                     <button onclick="login()">login</button>
+                    <button onclick="logout()">logout</button>
                 </div>
                 <div>
                     <p id="login"></p>
@@ -244,7 +207,7 @@
                     <input type="string" id="password2">
                 </div>
                 <div class="buttons">
-                    <button onclick="clicker('register')">register</button>
+                    <button onclick="register()">register</button>
                 </div>
                 <div>
                     <p id="register"></p>
@@ -253,7 +216,7 @@
                     ______________________
                 </div>
                 <div class="buttons">
-                    <button onclick="clicker('ranking')">ranking</button>
+                    <button onclick="ranking()">ranking</button>
                 </div>
                 <div>
                     <p id="ranking"></p>
@@ -262,7 +225,7 @@
                     ______________________
                 </div>
                 <div class="buttons">
-                    <button onclick="clicker('myData')">myData</button>
+                    <button onclick="myData()">myData</button>
                 </div>
                 <div>
                     <p id="myData"></p>
@@ -278,7 +241,7 @@
                     <input type="string" id="value">
                 </div>
                 <div class="buttons">
-                    <button onclick="clicker('update')">update</button>
+                    <button onclick="updateField()">update</button>
                 </div>
                 <div>
                     <p id="update"></p>
@@ -291,7 +254,7 @@
                     <input type="string" id="password3">
                 </div>
                 <div class="buttons">
-                    <button onclick="clicker('delete')">delete</button>
+                    <button onclick="deleteUser()">delete</button>
                 </div>
                 <div>
                     <p id="delete"></p>
@@ -299,25 +262,7 @@
                 <div>
                     ______________________
                 </div>
-
-            <!--</div>
-            <div class="c2">
-                <div class="buttons">
-                    <button onclick="clicker('login')">login</button>
-                </div>
-                <div class="buttons">
-                    <button onclick="clicker('-')">-</button>
-                </div>
-                <div class="buttons">
-                    <button onclick="clicker('*')">*</button>
-                </div>
-                <div class="buttons">
-                    <button onclick="clicker('/')">/</button>
-                </div>
-            </div>-->
         </div>
         </div>
-        <!--<script src="/socket.io/socket.io.js" charset="UTF-8"></script>-->
-        <!--<script src="socketTest.js" charset="UTF-8"></script>-->
     </body>
 </html>

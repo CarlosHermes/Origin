@@ -15,9 +15,9 @@ api = function (app){
 
 
     var users = [
-        { position: "1", userName: "jperez", password: "jp", coins: "0", ingots: "0", level: 1000, created: "2020-11-03T15:20:21.377Z"},
-        { position: "2", userName: "jsanz", password: "asfasdasd", coins: "0", ingots: "0", level: 950, created: "2020-11-03T15:20:21.377Z" },
-        { position: "3", userName: "mgutierrez", password: "Marasfasasdia", coins: "0", ingots: "0", level: 850, created: "2020-11-03T15:20:21.377Z" }
+        { position: "1", userName: "jperez", password: "jp", coins: 0, ingots: 0, level: 1000, created: "2020-11-03T15:20:21.377Z"},
+        { position: "2", userName: "jsanz", password: "asfasdasd", coins: 0, ingots: 0, level: 950, created: "2020-11-03T15:20:21.377Z" },
+        { position: "3", userName: "mgutierrez", password: "Marasfasasdia", coins: 0, ingots: 0, level: 850, created: "2020-11-03T15:20:21.377Z" }
     ];
 
     var updatableParams = [
@@ -54,10 +54,14 @@ api = function (app){
         var paramPassword = req.body.password || '';
 
         var foundUser = users.some(user => user.userName == paramUser && user.password ==  paramPassword);
-        var index2 = users.findIndex(j => j.password === paramPassword);
+        //var index2 = users.findIndex(j => j.password === paramPassword);
         //login succeed or incorrect login/password
         response = foundUser ? code204: codeError505;
-        console.log(response);
+        if(foundUser)
+        {
+            index = users.findIndex(j => j.userName === paramUser);
+            users[index].lastLogged = new Date();
+        }
         res.json(response);
     });
 
@@ -135,11 +139,10 @@ api = function (app){
                 updated: new Date()
             };
             var field = updatableParams[index2];
+            users[index][field] = paramValue;
             if (field == "level")
                 //Sort the ranking
                 UpdateRanking();
-            users[index][field] = paramValue;
-
             //Search User Again
             index = users.findIndex(j => j.userName === paramUser);
             //Response return
@@ -150,7 +153,43 @@ api = function (app){
             response = index==-1?codeError504: codeError506;
         }
         res.send(response);
+    });
 
+    app.post('/users/:userName', function (req, res) {  //registrate
+        var paramUser = req.params.userName || '';
+        var paramPassword = req.body.password || '';
+
+        /*if (paramUser === '' || paramPassword === '') {
+            response = codeError502;
+        } else {*/
+            //User Search
+            var index = users.findIndex(j => j.userName === paramUser)
+
+            if (index != -1) {
+                //User allready exists
+                response = codeError503;
+            } else {
+                //Add User
+                users.push({
+                    position: '',
+                    userName: paramUser,
+                    password: paramPassword,
+                    coins: 0,
+                    ingots: 0,
+                    level: 0,
+                    created: new Date()
+                });
+                //Sort the ranking
+                UpdateRanking();
+                //Search User Again
+                index = users.findIndex(j => j.userName === paramUser);
+                //Response return
+                response = code201;
+                response.User = users[index];
+            }
+        //}
+        res.send(response);
+        //socket.emit('response', response);
     });
 
     router.delete('/users/:userName', function (req, res){

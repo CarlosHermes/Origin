@@ -133,11 +133,10 @@ api = function (app){
                 updated: new Date()
             };
             var field = updatableParams[index2];
+            users[index][field] = paramValue;
             if (field == "level")
                     //Sort the ranking
                     UpdateRanking();
-            users[index][field] = paramValue;
-
             //Search User Again
             index = users.findIndex(j => j.userName === paramUser);
             //Response return
