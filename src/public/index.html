@@ -84,6 +84,7 @@
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
             /// JOB DONE
+
             function logged(){
                 const socket = io();
                 socket.on('time', (timeString) => {
@@ -101,11 +102,11 @@
                         if (action=='login')
                         {
                             userLogged.a = jsonDoc.search('false')==-1? '': data2.userName;
-                            //logged();
+                            logged();
                         }
                         if (action=='update' && socketTriggers.findIndex(j => j == data2.field)!= -1)
                         {
-                            logged();
+
                         }
                     }
                     //request.onerror = function(){ alert(request.responseText); }
@@ -138,8 +139,13 @@
                 //if (request) {
                 data = { field: field.value, value : value.value }
                 data.value = data.field != "password"? parseInt(data.value): data.value;
-                action('PUT', 'update', '/api/users/'+ userLogged.a, data)
-                //}
+                if (userLogged.a != '') {
+                    data.userName = userLogged.a;
+                    socket.emit('update', data);
+                }
+                else {
+                    action('PUT', 'update', '/api/users/'+ userLogged.a, data)
+                }
             }
             
             function ranking(){

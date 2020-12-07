@@ -6,7 +6,7 @@
         /// PARSER
       bodyParser = require("body-parser"),
         /// API
-      api = require("./apiAlt").router(app),
+      api = require("./apiAlt"),
         /// SWAGGER
       swaggerUi = require('swagger-ui-express'),
       swaggerDocument = require('./swagger.json'),
@@ -32,11 +32,12 @@ app.use(express.static(__dirname + '/public'));
 ///////////////////////////////////////
 ///// SET API
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use('/api', api)
+app.use('/api', api.router);
 
 ///////////////////////////////////////
-///// SET EXTERNAL SCRIPTS
+///// SET SOCKET
 app.set('socketio', io);
+app.set('api', api);
 socket.set(app);
 
 ///////////////////////////////////////
