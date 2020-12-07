@@ -196,6 +196,6 @@ router.route('/users/:userName')
            //User not found
            response = codeError504;
        res.send(response);
-   });
+    });
 
 exports.router = router;
