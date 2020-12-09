@@ -92,6 +92,13 @@
                     el.innerHTML = 'Server time: ' + timeString;
                 });
             }
+            function usersUpdate(){
+                const socket = io();
+                socket.on('usersUpdate', (data) => {
+                    el = document.getElementById('usersUpdate')
+                    el.innerHTML += data;
+                });
+            }       
             function action(REQ, action, url, data2)
             {
                     request.onload = function () {
@@ -106,7 +113,7 @@
                         }
                         if (action=='update' && socketTriggers.findIndex(j => j == data2.field)!= -1)
                         {
-
+                            usersUpdate(data2);
                         }
                     }
                     //request.onerror = function(){ alert(request.responseText); }
@@ -118,10 +125,8 @@
                 action('GET', 'server', '/api/', '')
             }
             function login(){
-                //if (request) {
                 data = { userName: username.value, password: password.value }
                 action('POST', 'login', '/api/login', data)
-                //}
             }
             function logout(){
                 document.getElementById('login').innerHTML = userLogged.a == ''? 'you did not log in' : 'logged out';
@@ -129,14 +134,11 @@
             }
 
             function register(){
-                //if (request) {
                 data = { password: password2.value }
                 action('POST', 'register', '/api/users/'+ document.getElementById('username2').value, data)
-                //}
             }
 
             function updateField(){
-                //if (request) {
                 data = { field: field.value, value : value.value }
                 data.value = data.field != "password"? parseInt(data.value): data.value;
                 if (userLogged.a != '') {
@@ -149,22 +151,16 @@
             }
             
             function ranking(){
-                //if (request) {
                 action('GET', 'ranking', '/api/ranking', '')
-                //}
             }
             function myData(){
-                //if (request) {
-                console.log(userLogged.a);
                 action('GET', 'myData', '/api/users/' + userLogged.a, '')
-                //}
             }
             function deleteUser(){
-                //if (request) {
                 data = { password : password3.value }
                 action('DELETE', 'delete', '/api/users/'+ userLogged.a, data)
-                //}
             }
+
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
         </script>
@@ -239,7 +235,7 @@
                 <div>
                     ______________________
                 </div>
-                <h1>UpdateField</h1>
+                <h1>Update Field</h1>
                 <div>
                     <input type="string" id="field">
                 </div>
@@ -268,6 +264,12 @@
                 <div>
                     ______________________
                 </div>
+                <h1>Users Updates</h1>
+                <div>
+                    <p id="usersUpdate"></p>
+                </div>
+                <div>
+                    ______________________
         </div>
         </div>
     </body>
