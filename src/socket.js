@@ -1,6 +1,6 @@
-const api = require("/apiAlt'");
 socket = (app) => {
     let io = app.get('socketio');
+    let api = app.get('api');
     io.on('connection' , (socket) => {
         console.log('Client connected', socket.id);
         socket.emit('welcome', 'Bienvenido')

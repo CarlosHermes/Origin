@@ -1,9 +1,8 @@
 ///////////////////////////////////////
 ///// CONSTANTS
-        /// EXPRESS
+      /// EXPRESS
 const express = require("express"),
       app = express(),
-      router = express.Router(),
         /// PARSER
       bodyParser = require("body-parser"),
         /// API
@@ -12,7 +11,7 @@ const express = require("express"),
       swaggerUi = require('swagger-ui-express'),
       swaggerDocument = require('./swagger.json'),
         /// SOCKET
-      server = require('http').Server(app),
+      server = require('http').createServer(app),
       io = require('socket.io')(server),
       socket = require('./socket'),
         /// PORT
@@ -31,14 +30,15 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 
 ///////////////////////////////////////
-///// SET OPENAPI
+///// SET API
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use('/api', router);
+app.use('/api', api.route);
 
 ///////////////////////////////////////
-///// SET EXTERNAL SCRIPTS
-api.set(router);
-socket.set(io);
+///// SET SOCKET
+app.set('socketio', io);
+app.set('api', api);
+socket.set(app);
 
 ///////////////////////////////////////
 ///// MAIN HTML INDEX
@@ -55,6 +55,4 @@ server.listen(PORT, () => {
 
 /*
 https://github.com/Rocher0724/socket.io-unity/releases/tag/v1.0.1
-https://medium.com/better-programming/express-js-routing-1b48f459d43a
-https://stackoverflow.com/questions/47837685/use-socket-io-in-expressjs-routes-instead-of-in-main-server-js-file
 */
