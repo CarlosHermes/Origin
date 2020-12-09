@@ -8,97 +8,19 @@
         <script>
             let userLogged = {a:''};
             var socketTriggers = ["coins", "ingots", "level"];
-
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            /// BASADO EN AJAXCRAFT
-            function getResp(whichPage) {                
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var jsonDoc = this.responseText;
-                        //jsonDoc = JSON.parse(jsonDoc);
-                        //jsonDoc = JSON.stringify(jsonDoc);
-                        document.getElementById(whichPage).innerHTML = jsonDoc;
-                    }
-                }
-                xhttp.open("GET", "/api", true);
-                xhttp.setRequestHeader('Content-type', 'application/json');
-                xhttp.send();
-            }
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            /// BASADO EN TU CODIGO
             var request = new XMLHttpRequest();
-            function requestSend(type, url, whichId, data)
-            {
-                console.log(request);
-                if (request) {
-                    request.onload = function () {
-                        var jsonDoc = this.responseText;
-                        //jsonDoc = JSON.parse(jsonDoc);
-                        //jsonDoc = JSON.stringify(jsonDoc);
-                        document.getElementById(whichId).innerHTML = jsonDoc;
-                    }
-                    //request.onerror = function(){ alert(request.responseText); }
-                    request.open(type, url, true);
-                    request.setRequestHeader('Content-Type', 'application/json');
-                    //if (data == '') data = { user: 'algo', score: 0 }
-                    request.send(JSON.stringify(data));
-                }
-            }
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            /// EJEMPLO DE FETCH BASADO EN STACKOVERFLOW
-            /// INFO: https://davidwalsh.name/fetch // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-            function tryFetch(method, url) {
-                fetch(url, {
-                    method: method,
-                    body: new FormData(document.getElementById("inputform")),
-                    // body : JSON.stringify({
-                    // user : document.getElementById('user').value,
-                    // ...
-                    // })
-                }).then(
-                    response => response.json()
-                ).then(
-                    html => console.log(html)
-                )
-            }
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            /// SOCKET CONFIG
-            /*
-            var socket = io();
-            var el;
-
-            socket.on('time', (timeString) => {
-                el = document.getElementById('server-time')
-                el.innerHTML = 'Server time: ' + timeString;
-            });
-
-            socket.on('welcome', (msg) => {
-                alert(msg);
-            });
-            */
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////////////
-            /// JOB DONE
-
+            const socket = io();
             function logged(){
-                const socket = io();
                 socket.on('time', (timeString) => {
                     el = document.getElementById('server-time')
                     el.innerHTML = 'Server time: ' + timeString;
                 });
-            }
-            function usersUpdate(){
-                const socket = io();
                 socket.on('usersUpdate', (data) => {
-                    el = document.getElementById('usersUpdate')
-                    el.innerHTML += data;
+                    lo = document.getElementById('usersUpdate')
+                    lo.innerHTML += data.User.userName;
+                    console.log("tu puta madre");
                 });
-            }       
+            }
             function action(REQ, action, url, data2)
             {
                     request.onload = function () {
@@ -110,10 +32,6 @@
                         {
                             userLogged.a = jsonDoc.search('false')==-1? '': data2.userName;
                             logged();
-                        }
-                        if (action=='update' && socketTriggers.findIndex(j => j == data2.field)!= -1)
-                        {
-                            usersUpdate(data2);
                         }
                     }
                     //request.onerror = function(){ alert(request.responseText); }
@@ -143,10 +61,14 @@
                 data.value = data.field != "password"? parseInt(data.value): data.value;
                 if (userLogged.a != '') {
                     data.userName = userLogged.a;
-                    socket.emit('update', data);
-                }
-                else {
-                    action('PUT', 'update', '/api/users/'+ userLogged.a, data)
+                    if (socketTriggers.findIndex(j => j == data.field)!= -1)
+                        {
+                            socket.emit('update', data);
+                            //usersUpdate(data2);
+                        }
+                    else {
+                        action('PUT', 'update', '/api/users/'+ userLogged.a, data)
+                    }
                 }
             }
             

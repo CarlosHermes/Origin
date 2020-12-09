@@ -10,8 +10,8 @@ socket = (app) => {
             socket.emit('function', data);
         });
         socket.on('update', data => {
-            api.updateData(data);
-            io.emit('usersUpdate', data);
+            console.log("hola");
+            io.emit('usersUpdate',  api.updateData(data));
         });
     });
 

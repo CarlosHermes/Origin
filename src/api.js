@@ -149,7 +149,8 @@ function upd(userNameP, fieldP, valueP)
 };
 
 module.exports.updateData = function updateData(data){
-    socket.emit('successUpdate', upd(data.userName, data.field, data.value));
+    console.log("me cago en")
+    return upd(data.userName, data.field, data.value);
 };
 
 router.put('/users/:userName', function (req, res) { //update a field
