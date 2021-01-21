@@ -9,8 +9,9 @@
             let userLogged = {a:''};
             var socketTriggers = ["coins", "ingots", "level"];
             var request = new XMLHttpRequest();
-            const socket = io();
+
             function logged(){
+                const socket = io();
                 socket.on('time', (timeString) => {
                     el = document.getElementById('server-time')
                     el.innerHTML = 'Server time: ' + timeString;

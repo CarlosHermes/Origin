@@ -1,4 +1,4 @@
-socket = (app) => {
+let socket = (app) => {
     let io = app.get('socketio');
     let api = app.get('api');
     io.on('connection' , (socket) => {
@@ -17,4 +17,5 @@ socket = (app) => {
     setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
 };
 
-module.exports = {set: socket};
+//module.exports = {set: socket};
+module.exports.set = socket;
