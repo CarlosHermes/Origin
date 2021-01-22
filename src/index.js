@@ -36,13 +36,13 @@ app.use('/api', api.route);
 app.set('socketio', io);
 app.set('api', api);
 socket.set(app);
-
+/*
 ///////////////////////////////////////
 ///// MAIN HTML INDEX
 app.get('/', function (req, res) {
     res.redirect('/index.html');
 });
-
+*/
 ///////////////////////////////////////
 ///// SERVER LISTEN UP
 server.listen(PORT, () => {
