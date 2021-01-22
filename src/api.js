@@ -6,7 +6,7 @@ let code201 = { code: 201, error: false, message: 'User Correctly Created' };
 let code202 = { code: 201, error: false, message: 'User Correctly Updated' };
 let code203 = { code: 201, error: false, message: 'User Correctly Deleted' };
 let code204 = { code: 201, error: false, message: 'Login succeeded'};
-//let codeError502 = { code: 503, error: true, message: 'The field: password, coins, level are mandatories (the level value has to be >0)' };
+let codeError502 = { code: 503, error: true, message: 'The field: password, coins, level are mandatories (the level value has to be >0)'};
 let codeError503 = { code: 503, error: true, message: 'Error: User Already Exists' };
 let codeError504 = { code: 504, error: true, message: 'Error: User not found' };
 let codeError505 = { code: 505, error: true, message: "Error: Incorrect Username or Password"};
@@ -32,8 +32,7 @@ function UpdateRanking() {
     for (x = 0; x < users.length; x++) {
         users[x].position = x + 1;
     }
-    //socket.emit('ranking', users);
-};
+}
 
 router.get('/', function (req, res) {
     //code works ok
@@ -65,60 +64,86 @@ router.post('/login', function (req, res){
     res.json(response);
 });
 
-router.get('/users/:userName', function (req, res) {
-    //User Search
-    var index = users.findIndex(j => j.userName === req.params.userName);
+router.route('/users/:userName')
+    .get(function (req, res) {
+        //User Search
+        var index = users.findIndex(j => j.userName === req.params.userName);
 
-    if (index >= 0) {
-        //User exists
-        response = code200;
-        response.User = users[index];
-    } else {
-        //User doesn't exists
-        response = codeError504;
-    }
-    res.send(response);
-});
+        if (index >= 0) {
+            //User exists
+            response = code200;
+            response.User = users[index];
+        } else {
+            //User doesn't exists
+            response = codeError504;
+        }
+        res.send(response);
+    })
+    .post(function (req, res) {
+        //Register
+        var paramUser = req.params.userName || '';
+        var paramPassword = req.body.password || '';
 
-router.post('/users/:userName', function (req, res) {  //registrate
-    var paramUser = req.params.userName || '';
-    var paramPassword = req.body.password || '';
+        /*if (paramUser === '' || paramPassword === '') {
+            response = codeError502;
+        } else {*/
+        //User Search
+        var index = users.findIndex(j => j.userName === paramUser)
 
-    /*if (paramUser === '' || paramPassword === '') {
-        response = codeError502;
-    } else {*/
-    //User Search
-    var index = users.findIndex(j => j.userName === paramUser)
-
-    if (index != -1) {
-        //User allready exists
-        response = codeError503;
-    } else {
-        //Add User
-        users.push({
-            position: '',
-            userName: paramUser,
-            password: paramPassword,
-            coins: 0,
-            ingots: 0,
-            level: 0,
-            created: new Date()
-        });
-        //Sort the ranking
-        UpdateRanking();
-        //Search User Again
+        if (index != -1) {
+            //User allready exists
+            response = codeError503;
+        } else {
+            //Add User
+            users.push({
+                position: '',
+                userName: paramUser,
+                password: paramPassword,
+                coins: 0,
+                ingots: 0,
+                level: 0,
+                created: new Date()
+            });
+            //Sort the ranking
+            UpdateRanking();
+            //Search User Again
+            index = users.findIndex(j => j.userName === paramUser);
+            //Response return
+            response = code201;
+            response.User = users[index];
+        }
+        //}
+        res.send(response);
+        //socket.emit('response', response);
+    })
+    .put(function (req, res) {
+        //Update a field
+        var paramUser = req.params.userName || '';
+        var paramField = req.body.field || '';
+        var paramValue = req.body.value || '';
+        res.send(updateField(paramUser, paramField, paramValue));
+    })
+    .delete(function (req, res){
+        //Delete user
+        var paramUser = req.params.userName || '';
+        var paramPassword = req.body.password || '';
         index = users.findIndex(j => j.userName === paramUser);
-        //Response return
-        response = code201;
-        response.User = users[index];
-    }
-    //}
-    res.send(response);
-    //socket.emit('response', response);
-});
+        if(index != -1){
+            if(users[index].password==paramPassword) {
+                users.splice(index,1);
+                //User correctly deleted
+                response = code203;
+                UpdateRanking();
+            } else
+                //Incorrect Password
+                response = codeError507;
+        } else
+            //User not found
+            response = codeError504;
+        res.send(response);
+    });
 
-function upd(userNameP, fieldP, valueP)
-{
+function updateField(userNameP, fieldP, valueP) {
     var index = users.findIndex(j => j.userName === userNameP)
     //Check if the field is updatable
     var index2 = updatableParams.findIndex(j => j == fieldP);
@@ -146,36 +171,7 @@ function upd(userNameP, fieldP, valueP)
         response.User = users[index];
     }
     return response;
-};
-
-module.exports.updateData = function updateData(data){
-    return upd(data.userName, data.field, data.value);
-};
-
-router.put('/users/:userName', function (req, res) { //update a field
-    var paramUser = req.params.userName || '';
-    var paramField = req.body.field || '';
-    var paramValue = req.body.value || '';
-    res.send(upd(paramUser, paramField, paramValue));
-});
-
-router.delete('/users/:userName', function (req, res){
-    var paramUser = req.params.userName || '';
-    var paramPassword = req.body.password || '';
-    index = users.findIndex(j => j.userName === paramUser);
-    if(index != -1){
-        if(users[index].password==paramPassword) {
-            users.splice(index,1);
-            //User correctly deleted
-            response = code203;
-            UpdateRanking();
-        } else
-            //Incorrect Password
-            response = codeError507;
-    } else
-        //User not found
-        response = codeError504;
-    res.send(response);
-});
+}
 
 module.exports.route = router;
+module.exports.updateField = updateField;

@@ -10,7 +10,7 @@ let socket = (app) => {
             socket.emit('function', data);
         });
         socket.on('update', data => {
-            io.emit('usersUpdate',  api.updateData(data));
+            io.emit('usersUpdate',  api.updateField(data.userName, data.field, data.value));
         });
     });
 

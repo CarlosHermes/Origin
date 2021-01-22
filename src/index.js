@@ -1,6 +1,6 @@
 ///////////////////////////////////////
 ///// CONSTANTS
-      /// EXPRESS
+        /// EXPRESS
 const express = require("express"),
       app = express(),
         /// PARSER
@@ -16,14 +16,11 @@ const express = require("express"),
       socket = require('./socket'),
         /// PORT
       PORT = process.env.PORT || 5000;
-        /// FETCH
-        //const fetch = require("node-fetch");
 
 ///////////////////////////////////////
 ///// SET PARSER
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-//app.use(express.json());
 
 ///////////////////////////////////////
 ///// SET PUBLIC FILES
