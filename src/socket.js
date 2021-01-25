@@ -4,6 +4,20 @@ let socket = (app) => {
     io.on('connection' , (socket) => {
         console.log('Client connected', socket.id);
         socket.emit('welcome', 'Bienvenido')
+        socket.on('chat', (data) => console.log(data))
+        socket.on('disconnect', () => console.log('Client disconnected'))
+        socket.on('function', (data) =>{
+            console.log(data);
+            socket.emit('function', data);
+        });
+        socket.on('update', data => {
+            io.emit('usersUpdate',  api.updateField(data.userName, data.field, data.value));
+        });
+    });
+    io.on('connect' , (socket) => {
+        console.log('Client connected', socket.id);
+        socket.emit('welcome', 'Bienvenido')
+        socket.on('chat', (data) => console.log(data))
         socket.on('disconnect', () => console.log('Client disconnected'))
         socket.on('function', (data) =>{
             console.log(data);

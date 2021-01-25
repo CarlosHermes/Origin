@@ -60,6 +60,7 @@ router.post('/login', function (req, res){
     {
         index = users.findIndex(j => j.userName === paramUser);
         users[index].lastLogged = new Date();
+        console.log("logged")
     }
     res.json(response);
 });
