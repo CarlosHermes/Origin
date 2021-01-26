@@ -33,6 +33,7 @@ app.use('/api', api.route);
 
 ///////////////////////////////////////
 ///// SET SOCKET
+io({allowEIO3: true});
 app.set('socketio', io);
 app.set('api', api);
 socket.set(app);
