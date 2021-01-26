@@ -13,15 +13,19 @@ let codeError505 = { code: 505, error: true, message: "Error: Incorrect Username
 let codeError506 = { code: 506, error: true, message: "Error: Incorrect Field"};
 let codeError507 = { code: 507, error: true, message: "Error: Incorrect Password"};
 
-
+const abilities =[
+    {fireArrow: false},
+    {frozenArrow: false},
+    {poisonedArrow: false}
+];
 var users = [
-    { position: "1", userName: "jperez", password: "jp", coins: 0, ingots: 0, level: 1000, created: "2020-11-03T15:20:21.377Z"},
-    { position: "2", userName: "jsanz", password: "asfasdasd", coins: 0, ingots: 0, level: 950, created: "2020-11-03T15:20:21.377Z" },
-    { position: "3", userName: "mgutierrez", password: "Marasfasasdia", coins: 0, ingots: 0, level: 850, created: "2020-11-03T15:20:21.377Z" }
+    { position: "1", userName: "jperez", password: "jp", coins: 0, ingots: 0, level: 1000, skills: abilities, created: "2020-11-03T15:20:21.377Z"},
+    { position: "2", userName: "jsanz", password: "asfasdasd", coins: 0, ingots: 0, level: 950, skills: abilities, created: "2020-11-03T15:20:21.377Z" },
+    { position: "3", userName: "mgutierrez", password: "Marasfasasdia", coins: 0, ingots: 0, level: 850, skills: abilities, created: "2020-11-03T15:20:21.377Z" }
 ];
 
 var updatableParams = [
-    "password", "coins", "ingots", "level"
+    "password", "coins", "ingots", "level","fireArrow", "frozenArrow", "posionedArrow"
 ];
 
 function UpdateRanking() {
@@ -36,9 +40,7 @@ function UpdateRanking() {
 
 router.get('/', function (req, res) {
     //code works ok
-    //res.send(code100);
     res.json(code100);
-    //res.sendFile('index.html');
     //res.sendfile('./TestSockets.html', code100.error);
 });
 
@@ -103,6 +105,7 @@ router.route('/users/:userName')
                 coins: 0,
                 ingots: 0,
                 level: 0,
+                skills: abilities,
                 created: new Date()
             });
             //Sort the ranking
@@ -157,15 +160,22 @@ function updateField(userNameP, fieldP, valueP) {
             coins: users[index].coins,
             ingots: users[index].ingots,
             level: users[index].level,
+            skills: users[index].skills,
             created:  users[index].created,
             updated: new Date()
         };
         var field = updatableParams[index2];
-        users[index][field] = valueP;
-        if (field == "level")
-            //Sort the ranking
-            UpdateRanking();
-        //Search User Again
+        if(index2<4)
+        {
+            users[index][field] = valueP;
+            if (field == "level")
+                //Sort the ranking
+                UpdateRanking();
+            //Search User Again
+        }
+        else{
+            users[index]["skills"][index2-4][fieldP]=valueP==="true"? true:false;
+        }
         index = users.findIndex(j => j.userName === userNameP);
         //Response return
         response = code202;
